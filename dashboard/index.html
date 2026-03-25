@@ -5,576 +5,187 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PSG DATA HUB — Analyse & Histoire du Club</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
 :root {
-  --psg-bleu:    #004170;
-  --psg-rouge:   #DA291C;
-  --psg-or:      #C7A84B;
-  --bg-deep:     #080C10;
-  --bg-card:     #0F1621;
-  --bg-card2:    #151D2B;
-  --border:      rgba(0,65,112,0.35);
-  --border-glow: rgba(199,168,75,0.4);
-  --text:        #E8EEF5;
-  --text-muted:  #7A8BA0;
-  --font-display: 'Bebas Neue', sans-serif;
-  --font-body:    'DM Sans', sans-serif;
-  --font-mono:    'JetBrains Mono', monospace;
+  --bg:        hsl(220, 30%, 4%);
+  --bg2:       hsl(220, 25%, 7%);
+  --fg:        hsl(40, 8%, 94%);
+  --fg2:       hsl(40, 6%, 70%);
+  --psg-bleu:  hsl(207, 100%, 22%);
+  --psg-rouge: hsl(4, 72%, 47%);
+  --psg-or:    hsl(42, 50%, 54%);
+  --or-vivid:  hsl(42, 90%, 62%);
+  --border:    rgba(255,255,255,0.07);
+  --border2:   rgba(255,255,255,0.12);
+  --font:      'Inter', system-ui, sans-serif;
+  --mono:      'Geist Mono', monospace;
+  --r:         0.75rem;
+  --r-lg:      1.25rem;
+  --r-xl:      2rem;
 }
-
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
 html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--fg); font-family: var(--font); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
 
-body {
-  background: var(--bg-deep);
-  color: var(--text);
-  font-family: var(--font-body);
-  overflow-x: hidden;
+.lg {
+  background: rgba(255,255,255,0.025);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: inset 0 1px 1px rgba(255,255,255,0.08);
+  position: relative; overflow: hidden;
 }
-
-/* ── NOISE TEXTURE ── */
-body::before {
-  content: '';
-  position: fixed; inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-  pointer-events: none; z-index: 0;
-}
-
-/* ── HERO ── */
-.hero {
-  position: relative;
-  min-height: 100vh;
-  display: flex; flex-direction: column;
-  justify-content: center; align-items: center;
-  text-align: center;
-  overflow: hidden;
-  padding: 2rem;
+.lg::before {
+  content: ''; position: absolute; inset: 0; border-radius: inherit; padding: 1px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.06) 25%, rgba(255,255,255,0) 50%, rgba(255,255,255,0.06) 75%, rgba(255,255,255,0.3) 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none; z-index: 1;
 }
 
-.hero-bg {
-  position: absolute; inset: 0;
-  background: 
-    radial-gradient(ellipse 80% 60% at 50% -10%, rgba(0,65,112,0.5) 0%, transparent 70%),
-    radial-gradient(ellipse 40% 40% at 80% 80%,  rgba(218,41,28,0.15) 0%, transparent 60%),
-    radial-gradient(ellipse 30% 30% at 20% 70%,  rgba(199,168,75,0.1) 0%, transparent 60%);
-  z-index: 0;
-}
+.ambient { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.orb { position: absolute; border-radius: 50%; filter: blur(120px); }
+.orb-1 { width: 700px; height: 700px; background: var(--psg-bleu); top: -200px; left: -150px; opacity: 0.12; }
+.orb-2 { width: 500px; height: 500px; background: var(--psg-rouge); top: 40vh; right: -150px; opacity: 0.07; }
+.orb-3 { width: 400px; height: 400px; background: var(--psg-or); bottom: -100px; left: 30%; opacity: 0.08; }
 
-/* Rotating circle in background */
-.hero-ring {
-  position: absolute;
-  width: 700px; height: 700px;
-  border: 1px solid rgba(0,65,112,0.2);
-  border-radius: 50%;
-  top: 50%; left: 50%;
-  transform: translate(-50%,-50%);
-  animation: rotate 30s linear infinite;
-}
-.hero-ring::after {
-  content: '';
-  position: absolute;
-  width: 4px; height: 4px;
-  background: var(--psg-or);
-  border-radius: 50%;
-  top: -2px; left: 50%;
-  box-shadow: 0 0 12px var(--psg-or);
-}
-.hero-ring-2 {
-  width: 450px; height: 450px;
-  border-color: rgba(218,41,28,0.15);
-  animation-direction: reverse;
-  animation-duration: 20s;
-}
-
-@keyframes rotate { to { transform: translate(-50%,-50%) rotate(360deg); } }
-
-.hero-content { position: relative; z-index: 2; }
-
-.hero-badge {
-  display: inline-block;
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  letter-spacing: 0.2em;
-  color: var(--psg-or);
-  border: 1px solid var(--border-glow);
-  padding: 0.4em 1.2em;
-  border-radius: 100px;
-  background: rgba(199,168,75,0.05);
-  margin-bottom: 2rem;
-  animation: fadeUp 0.8s ease both;
-}
-
-.hero-title {
-  font-family: var(--font-display);
-  font-size: clamp(5rem, 15vw, 12rem);
-  line-height: 0.85;
-  letter-spacing: 0.02em;
-  animation: fadeUp 0.8s ease 0.1s both;
-}
-
-.hero-title span.psg {
-  background: linear-gradient(135deg, #fff 0%, #b8cee0 50%, #7aa7c7 100%);
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.hero-title span.data {
-  background: linear-gradient(135deg, var(--psg-or) 0%, #e8c96a 50%, var(--psg-or) 100%);
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.hero-sub {
-  font-size: 1.1rem;
-  color: var(--text-muted);
-  max-width: 500px; margin: 1.5rem auto 3rem;
-  font-weight: 300;
-  line-height: 1.6;
-  animation: fadeUp 0.8s ease 0.2s both;
-}
-
-.hero-stats {
-  display: flex; gap: 3rem; justify-content: center;
-  animation: fadeUp 0.8s ease 0.3s both;
-  flex-wrap: wrap;
-}
-
-.hero-stat { text-align: center; }
-.hero-stat-val {
-  font-family: var(--font-display);
-  font-size: 3rem;
-  color: var(--psg-or);
-  line-height: 1;
-  display: block;
-}
-.hero-stat-label {
-  font-size: 0.75rem;
-  font-family: var(--font-mono);
-  color: var(--text-muted);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
-
-.scroll-hint {
-  position: absolute; bottom: 2.5rem; left: 50%;
-  transform: translateX(-50%);
-  display: flex; flex-direction: column; align-items: center;
-  gap: 0.5rem;
-  color: var(--text-muted);
-  font-size: 0.7rem;
-  letter-spacing: 0.15em;
-  font-family: var(--font-mono);
-  animation: bounce 2s ease infinite;
-  z-index: 2;
-}
-.scroll-line {
-  width: 1px; height: 40px;
-  background: linear-gradient(to bottom, var(--psg-or), transparent);
-}
-@keyframes bounce {
-  0%,100% { transform: translateX(-50%) translateY(0); }
-  50% { transform: translateX(-50%) translateY(8px); }
-}
-
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(30px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-/* ── NAV ── */
 nav {
-  position: sticky; top: 0; z-index: 100;
-  background: rgba(8,12,16,0.85);
-  backdrop-filter: blur(20px);
-  border-bottom: 1px solid var(--border);
-  padding: 0 2rem;
-  display: flex; align-items: center; justify-content: space-between;
-  height: 60px;
+  position: fixed; top: 1.25rem; left: 50%; transform: translateX(-50%);
+  z-index: 100; border-radius: 100px; padding: 0.6rem 1.5rem;
+  display: flex; align-items: center; gap: 2rem;
+  width: min(860px, calc(100vw - 2rem));
 }
+.nav-logo { font-family: var(--mono); font-weight: 600; font-size: 0.9rem; color: var(--or-vivid); white-space: nowrap; text-decoration: none; }
+.nav-links { display: flex; gap: 0.25rem; list-style: none; flex: 1; justify-content: center; }
+.nav-links a { padding: 0.35em 0.85em; font-size: 0.8rem; color: var(--fg2); text-decoration: none; border-radius: 100px; transition: all 0.2s; }
+.nav-links a:hover { color: var(--fg); background: rgba(255,255,255,0.06); }
+.btn { padding: 0.65em 1.4em; border-radius: 100px; font-size: 0.8rem; font-weight: 500; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 0.4em; transition: all 0.2s; border: none; font-family: var(--font); }
+.btn-p { background: var(--or-vivid); color: hsl(220,30%,8%); }
+.btn-p:hover { background: hsl(42,95%,70%); transform: translateY(-1px); }
+.btn-s { color: var(--fg); border: 1px solid var(--border2); }
+.btn-s:hover { background: rgba(255,255,255,0.06); }
 
-.nav-logo {
-  font-family: var(--font-display);
-  font-size: 1.4rem;
-  letter-spacing: 0.05em;
-  color: var(--psg-or);
-}
+.hero { position: relative; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 7rem 2rem 4rem; z-index: 1; }
+.badge-pill { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.35em 1em; border-radius: 100px; font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--or-vivid); margin-bottom: 2rem; }
+.bdot { width: 6px; height: 6px; border-radius: 50%; background: var(--or-vivid); box-shadow: 0 0 8px var(--or-vivid); animation: bpulse 2s ease infinite; }
+@keyframes bpulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.4;transform:scale(0.75)} }
 
-.nav-links {
-  display: flex; gap: 0.25rem;
-  list-style: none;
-}
+.hero-title { font-size: clamp(3.5rem, 10vw, 9rem); font-weight: 700; line-height: 0.88; letter-spacing: -0.03em; margin-bottom: 1.5rem; }
+.ht1 { color: var(--fg); display: block; }
+.ht2 { display: block; background: linear-gradient(135deg, var(--or-vivid) 0%, #fff 50%, var(--or-vivid) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; background-size: 200% 200%; animation: shimmer 4s ease infinite; }
+.ht3 { display: block; color: rgba(255,255,255,0.12); font-size: 0.3em; letter-spacing: 0.35em; font-weight: 400; font-family: var(--mono); margin-top: 0.5rem; }
+@keyframes shimmer { 0%,100%{background-position:0% 50%} 50%{background-position:100% 50%} }
+.hero-sub { font-size: 1rem; color: var(--fg2); max-width: 460px; line-height: 1.7; font-weight: 300; margin-bottom: 2.5rem; }
 
-.nav-links a {
-  display: block;
-  padding: 0.4em 0.9em;
-  font-size: 0.8rem;
-  font-family: var(--font-mono);
-  letter-spacing: 0.08em;
-  color: var(--text-muted);
-  text-decoration: none;
-  border-radius: 6px;
-  transition: all 0.2s;
-  text-transform: uppercase;
-}
-.nav-links a:hover {
-  color: var(--text);
-  background: rgba(0,65,112,0.25);
-}
+.kpi-bar { display: flex; gap: 1px; border-radius: var(--r-lg); overflow: hidden; margin-bottom: 2.5rem; }
+.kpi { flex: 1; padding: 1.2rem 1.8rem; text-align: center; min-width: 120px; }
+.kv { font-size: 2rem; font-weight: 700; color: var(--or-vivid); font-family: var(--mono); line-height: 1; }
+.kl { font-size: 0.62rem; color: var(--fg2); font-family: var(--mono); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 0.3rem; }
+.kpi+.kpi { border-left: 1px solid var(--border); }
 
-/* ── LAYOUT ── */
-.container {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 0 2rem;
-}
+.hero-cta { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; margin-bottom: 3.5rem; }
 
-section {
-  padding: 6rem 0;
-}
+.mq-wrap { overflow: hidden; width: 100%; max-width: 900px; }
+.mq-track { display: flex; gap: 0.75rem; animation: mq 25s linear infinite; width: max-content; }
+.mq-item { display: flex; align-items: center; gap: 0.5rem; padding: 0.45rem 0.9rem; border-radius: var(--r); font-family: var(--mono); font-size: 0.72rem; color: var(--fg2); white-space: nowrap; }
+.mq-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--or-vivid); opacity: 0.45; }
+@keyframes mq { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+.mq-label { font-family: var(--mono); font-size: 0.62rem; color: var(--fg2); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 0.75rem; opacity: 0.45; }
 
-.section-header {
-  margin-bottom: 3.5rem;
-}
+section { position: relative; z-index: 1; padding: 6rem 2rem; }
+.ctr { max-width: 1200px; margin: 0 auto; }
+.ey { display: inline-flex; align-items: center; gap: 0.5rem; font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--or-vivid); margin-bottom: 0.75rem; opacity: 0.8; }
+.ey .s { color: var(--fg2); opacity: 0.4; }
+.st { font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 700; line-height: 1.0; letter-spacing: -0.02em; margin-bottom: 0.75rem; }
+.st em { font-style: normal; color: var(--psg-rouge); }
+.st .g { color: var(--or-vivid); }
+.ss { font-size: 0.95rem; color: var(--fg2); max-width: 480px; line-height: 1.7; font-weight: 300; margin-bottom: 2.5rem; }
 
-.section-label {
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  letter-spacing: 0.25em;
-  color: var(--psg-or);
-  text-transform: uppercase;
-  margin-bottom: 0.75rem;
-}
+.card { border-radius: var(--r-xl); padding: 1.75rem; }
+.ct { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--or-vivid); margin-bottom: 1.25rem; opacity: 0.75; }
+.g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+.g3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.25rem; }
+.g4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 1rem; }
 
-.section-title {
-  font-family: var(--font-display);
-  font-size: clamp(2.5rem, 5vw, 4rem);
-  line-height: 0.9;
-  letter-spacing: 0.03em;
-}
+.pc { border-radius: var(--r-xl); padding: 1.75rem 1.5rem; text-align: center; transition: transform 0.3s; cursor: default; }
+.pc:hover { transform: translateY(-4px); }
+.pi { font-size: 1.75rem; margin-bottom: 0.75rem; }
+.pv { font-family: var(--mono); font-size: 3rem; font-weight: 700; color: var(--or-vivid); line-height: 1; }
+.pl { font-size: 0.7rem; color: var(--fg2); font-family: var(--mono); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 0.5rem; }
 
-.section-title em {
-  color: var(--psg-rouge);
-  font-style: normal;
-}
+.tbl { width: 100%; border-collapse: collapse; }
+.tbl th { font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--fg2); padding: 0.6rem 0.75rem; text-align: left; border-bottom: 1px solid var(--border); font-weight: 400; }
+.tbl td { padding: 0.6rem 0.75rem; font-size: 0.78rem; border-bottom: 1px solid rgba(255,255,255,0.03); }
+.tbl tr:hover td { background: rgba(255,255,255,0.03); }
+.gv { font-family: var(--mono); font-size: 1.1rem; font-weight: 700; color: var(--or-vivid); }
+.rv { color: var(--fg2); font-family: var(--mono); font-size: 0.7rem; }
+.nv { font-weight: 500; }
 
-/* ── CARDS ── */
-.card {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 1.75rem;
-  position: relative;
-  overflow: hidden;
-  transition: border-color 0.3s, transform 0.3s;
-}
-.card:hover {
-  border-color: rgba(199,168,75,0.3);
-  transform: translateY(-3px);
-}
-.card::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, rgba(0,65,112,0.06) 0%, transparent 60%);
-  pointer-events: none;
-}
+.pos { display: inline-block; padding: 0.12em 0.5em; border-radius: 4px; font-family: var(--mono); font-size: 0.58rem; font-weight: 600; letter-spacing: 0.05em; }
+.pos.ATT { background: rgba(218,41,28,0.18); color: #f87171; }
+.pos.MID { background: rgba(0,65,112,0.3); color: #60a5fa; }
+.pos.DEF { background: rgba(199,168,75,0.18); color: var(--or-vivid); }
+.pos.GK  { background: rgba(139,92,246,0.18); color: #a78bfa; }
 
-.card-title {
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  letter-spacing: 0.2em;
-  color: var(--psg-or);
-  text-transform: uppercase;
-  margin-bottom: 1.25rem;
-}
+.timeline { position: relative; padding-left: 2rem; }
+.timeline::before { content: ''; position: absolute; left: 0; top: 8px; bottom: 0; width: 1px; background: linear-gradient(to bottom, var(--or-vivid), var(--psg-rouge), transparent); }
+.tli { position: relative; margin-bottom: 0.9rem; padding: 1.1rem 1.4rem; border-radius: var(--r-lg); transition: transform 0.2s; }
+.tli:hover { transform: translateX(4px); }
+.tli::before { content: ''; position: absolute; left: -2.35rem; top: 1.5rem; width: 7px; height: 7px; border-radius: 50%; background: var(--or-vivid); box-shadow: 0 0 8px var(--or-vivid); }
+.tls { font-family: var(--mono); font-size: 1.1rem; font-weight: 700; color: var(--or-vivid); }
+.tlrow { display: flex; justify-content: space-between; align-items: flex-start; }
+.tlg { font-family: var(--mono); font-size: 1.5rem; font-weight: 700; color: rgba(255,255,255,0.25); line-height: 1; }
+.tlgl { font-family: var(--mono); font-size: 0.52rem; color: var(--fg2); text-transform: uppercase; letter-spacing: 0.1em; }
+.ub { display: inline-block; padding: 0.12em 0.55em; border-radius: 4px; font-family: var(--mono); font-size: 0.58rem; font-weight: 600; margin-top: 0.4rem; }
+.uf { background: rgba(199,168,75,0.18); color: var(--or-vivid); border: 1px solid rgba(199,168,75,0.25); }
+.ud { background: rgba(0,65,112,0.22); color: #60a5fa; }
+.uq { background: rgba(0,100,50,0.18); color: #4ade80; }
+.uh { background: rgba(80,80,80,0.18); color: #9ca3af; }
 
-/* ── GRID LAYOUTS ── */
-.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
-.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
-.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem; }
+.tabs { display: flex; gap: 0.4rem; margin-bottom: 1.25rem; flex-wrap: wrap; }
+.tab { padding: 0.3em 0.85em; border-radius: 100px; font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.08em; text-transform: uppercase; border: 1px solid var(--border); background: transparent; color: var(--fg2); cursor: pointer; transition: all 0.2s; }
+.tab:hover, .tab.active { background: rgba(0,65,112,0.35); border-color: rgba(0,120,200,0.35); color: var(--fg); }
 
-@media (max-width: 900px) {
-  .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
-}
+.ti { margin-bottom: 1rem; }
+.tr2 { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.3rem; }
+.tn { font-weight: 500; font-size: 0.85rem; }
+.tm { font-size: 0.72rem; color: var(--fg2); margin-left: 0.4rem; }
+.tf { font-family: var(--mono); font-size: 1.05rem; font-weight: 700; color: var(--or-vivid); }
+.bt { height: 3px; background: rgba(255,255,255,0.05); border-radius: 2px; overflow: hidden; }
+.bf { height: 100%; border-radius: 2px; background: linear-gradient(to right, var(--psg-bleu), var(--or-vivid)); transition: width 1.2s ease; }
 
-/* ── STAT CARDS (palmarès) ── */
-.stat-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 1.5rem 1.25rem;
-  text-align: center;
-  transition: all 0.3s;
-  cursor: default;
-}
-.stat-card:hover {
-  border-color: var(--psg-or);
-  box-shadow: 0 0 30px rgba(199,168,75,0.1);
-}
-.stat-card-val {
-  font-family: var(--font-display);
-  font-size: 3.5rem;
-  line-height: 1;
-  color: var(--psg-or);
-}
-.stat-card-label {
-  font-size: 0.8rem;
-  color: var(--text-muted);
-  margin-top: 0.5rem;
-  font-family: var(--font-mono);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
+.divider { height: 1px; background: linear-gradient(to right, transparent, var(--border2), transparent); margin: 0 2rem; }
 
-/* ── PLAYER TABLE ── */
-.player-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-.player-table th {
-  font-family: var(--font-mono);
-  font-size: 0.65rem;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-  padding: 0.75rem 1rem;
-  text-align: left;
-  border-bottom: 1px solid var(--border);
-}
-.player-table td {
-  padding: 0.7rem 1rem;
-  font-size: 0.875rem;
-  border-bottom: 1px solid rgba(0,65,112,0.15);
-  transition: background 0.2s;
-}
-.player-table tr:hover td {
-  background: rgba(0,65,112,0.1);
-}
-.player-table .rank {
-  font-family: var(--font-mono);
-  color: var(--text-muted);
-  font-size: 0.75rem;
-}
-.player-table .name {
-  font-weight: 600;
-  color: var(--text);
-}
-.player-table .goals {
-  font-family: var(--font-display);
-  font-size: 1.2rem;
-  color: var(--psg-or);
-}
-.badge-pos {
-  display: inline-block;
-  padding: 0.15em 0.6em;
-  border-radius: 4px;
-  font-family: var(--font-mono);
-  font-size: 0.65rem;
-  font-weight: 600;
-  letter-spacing: 0.05em;
-}
-.badge-pos.ATT { background: rgba(218,41,28,0.2); color: #ff6b5b; }
-.badge-pos.MID { background: rgba(0,65,112,0.3); color: #6ba0d4; }
-.badge-pos.DEF { background: rgba(199,168,75,0.2); color: var(--psg-or); }
-.badge-pos.GK  { background: rgba(123,97,255,0.2); color: #a78bfa; }
+footer { position: relative; z-index: 1; padding: 4rem 2rem 2rem; border-top: 1px solid var(--border); }
+.fl { font-family: var(--mono); font-size: 1.4rem; font-weight: 700; color: var(--or-vivid); margin-bottom: 0.35rem; }
+.ft { font-size: 0.8rem; color: var(--fg2); }
+.flinks { display: flex; gap: 1.5rem; list-style: none; margin-top: 1.25rem; flex-wrap: wrap; }
+.flinks a { font-family: var(--mono); font-size: 0.68rem; color: var(--fg2); text-decoration: none; letter-spacing: 0.08em; transition: color 0.2s; }
+.flinks a:hover { color: var(--or-vivid); }
+.fd { font-family: var(--mono); font-size: 0.62rem; color: rgba(255,255,255,0.18); margin-top: 1.5rem; line-height: 1.7; }
 
-/* ── TIMELINE ── */
-.timeline {
-  position: relative;
-  padding-left: 2rem;
-}
-.timeline::before {
-  content: '';
-  position: absolute;
-  left: 0; top: 0; bottom: 0;
-  width: 1px;
-  background: linear-gradient(to bottom, var(--psg-or), var(--psg-rouge), transparent);
-}
-.timeline-item {
-  position: relative;
-  margin-bottom: 2rem;
-  padding: 1.25rem 1.5rem;
-  background: var(--bg-card2);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  transition: all 0.3s;
-}
-.timeline-item:hover {
-  border-color: rgba(199,168,75,0.3);
-  transform: translateX(4px);
-}
-.timeline-item::before {
-  content: '';
-  position: absolute;
-  left: -2.45rem; top: 1.5rem;
-  width: 8px; height: 8px;
-  border-radius: 50%;
-  background: var(--psg-or);
-  box-shadow: 0 0 10px var(--psg-or);
-}
-.timeline-season {
-  font-family: var(--font-display);
-  font-size: 1.4rem;
-  color: var(--psg-or);
-}
-.timeline-ucl {
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  color: var(--text-muted);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
-.timeline-scorer {
-  font-size: 0.875rem;
-  color: var(--text-muted);
-  margin-top: 0.25rem;
-}
-.timeline-scorer strong { color: var(--text); }
+.reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.55s ease, transform 0.55s ease; }
+.reveal.in { opacity: 1; transform: none; }
 
-.ucl-badge {
-  display: inline-block;
-  padding: 0.2em 0.7em;
-  border-radius: 6px;
-  font-family: var(--font-mono);
-  font-size: 0.65rem;
-  margin-top: 0.5rem;
-  font-weight: 600;
+@media (max-width: 860px) {
+  .g2, .g3, .g4 { grid-template-columns: 1fr; }
+  nav .nav-links { display: none; }
+  .kpi { min-width: 90px; padding: 1rem 0.75rem; }
+  .kv { font-size: 1.5rem; }
 }
-.ucl-finale  { background: rgba(199,168,75,0.2); color: var(--psg-or); border: 1px solid var(--psg-or); }
-.ucl-demi    { background: rgba(0,65,112,0.3);   color: #6ba0d4; }
-.ucl-quarts  { background: rgba(0,80,50,0.3);    color: #6dd49e; }
-.ucl-huitiemes { background: rgba(80,80,80,0.3); color: #a0a0a0; }
-
-/* ── SEPARATOR ── */
-.sep {
-  height: 1px;
-  background: linear-gradient(to right, transparent, var(--border), transparent);
-  margin: 0;
-}
-
-/* ── FOOTER ── */
-footer {
-  padding: 3rem 2rem;
-  text-align: center;
-  border-top: 1px solid var(--border);
-}
-.footer-title {
-  font-family: var(--font-display);
-  font-size: 2rem;
-  color: var(--psg-or);
-  margin-bottom: 0.5rem;
-}
-.footer-sub {
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  color: var(--text-muted);
-  letter-spacing: 0.15em;
-}
-.footer-links {
-  display: flex; gap: 1.5rem; justify-content: center;
-  margin-top: 1.5rem; list-style: none;
-}
-.footer-links a {
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  color: var(--text-muted);
-  text-decoration: none;
-  letter-spacing: 0.1em;
-  transition: color 0.2s;
-}
-.footer-links a:hover { color: var(--psg-or); }
-
-/* ── MERCATO COLOR INDICATOR ── */
-.bilan-pos { color: #5de8a0; }
-.bilan-neg { color: var(--psg-rouge); }
-
-/* ── FILTER TABS ── */
-.filter-tabs {
-  display: flex; gap: 0.5rem; margin-bottom: 1.5rem; flex-wrap: wrap;
-}
-.tab-btn {
-  padding: 0.4em 1em;
-  border-radius: 100px;
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  border: 1px solid var(--border);
-  background: transparent;
-  color: var(--text-muted);
-  cursor: pointer;
-  transition: all 0.2s;
-}
-.tab-btn:hover, .tab-btn.active {
-  background: var(--psg-bleu);
-  border-color: var(--psg-bleu);
-  color: white;
-}
-
-/* ── GLOW ACCENT ── */
-.glow-rouge { text-shadow: 0 0 20px rgba(218,41,28,0.5); }
-.glow-or    { text-shadow: 0 0 20px rgba(199,168,75,0.5); }
-
-/* Stagger animation */
-.stagger > * {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.5s ease, transform 0.5s ease;
-}
-.stagger.visible > * { opacity: 1; transform: none; }
-.stagger.visible > *:nth-child(1) { transition-delay: 0s; }
-.stagger.visible > *:nth-child(2) { transition-delay: 0.08s; }
-.stagger.visible > *:nth-child(3) { transition-delay: 0.16s; }
-.stagger.visible > *:nth-child(4) { transition-delay: 0.24s; }
-
-.canvas-wrap { position: relative; }
 </style>
 </head>
 <body>
 
-<!-- ═══════════════════ HERO ═══════════════════ -->
-<section class="hero" id="home">
-  <div class="hero-bg"></div>
-  <div class="hero-ring"></div>
-  <div class="hero-ring hero-ring-2"></div>
-  <div class="hero-content">
-    <div class="hero-badge">⚽ DATA ANALYTICS — ÈRE QSI 2011–2025</div>
-    <h1 class="hero-title">
-      <span class="psg">PSG</span><br>
-      <span class="data">DATA</span><br>
-      <span style="color: rgba(255,255,255,0.15); font-size: 0.4em; letter-spacing: 0.3em;">HUB</span>
-    </h1>
-    <p class="hero-sub">
-      14 saisons de données. 30 joueurs. 32 transferts. 76 fiches statistiques.<br>
-      L'histoire du Paris Saint-Germain racontée par la donnée.
-    </p>
-    <div class="hero-stats" id="heroStats">
-      <div class="hero-stat">
-        <span class="hero-stat-val" data-target="11">0</span>
-        <span class="hero-stat-label">Titres Ligue 1</span>
-      </div>
-      <div class="hero-stat">
-        <span class="hero-stat-val" data-target="1221">0</span>
-        <span class="hero-stat-label">Millions € dépensés</span>
-      </div>
-      <div class="hero-stat">
-        <span class="hero-stat-val" data-target="165">0</span>
-        <span class="hero-stat-label">Buts — Record Cavani</span>
-      </div>
-    </div>
-  </div>
-  <div class="scroll-hint">
-    <span>EXPLORER</span>
-    <div class="scroll-line"></div>
-  </div>
-</section>
+<div class="ambient">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+</div>
 
-<!-- ═══════════════════ NAV ═══════════════════ -->
-<nav>
-  <div class="nav-logo">PSG.DATA</div>
+<nav class="lg">
+  <a class="nav-logo" href="#home">PSG.DATA</a>
   <ul class="nav-links">
     <li><a href="#palmares">Palmarès</a></li>
     <li><a href="#topscorers">Buteurs</a></li>
@@ -582,525 +193,229 @@ footer {
     <li><a href="#saisons">Saisons</a></li>
     <li><a href="#effectif">Effectif</a></li>
   </ul>
+  <a href="https://github.com/Sylian25/psg-data-hub" target="_blank" class="btn btn-p" style="font-size:0.75rem;padding:0.5em 1.1em;">GitHub ↗</a>
 </nav>
 
-<!-- ═══════════════════ PALMARÈS ═══════════════════ -->
+<section class="hero" id="home">
+  <div class="badge-pill lg"><span class="bdot"></span>Ère QSI · 2011–2025 · Data Analytics</div>
+  <h1 class="hero-title">
+    <span class="ht1">PARIS</span>
+    <span class="ht2">DATA HUB</span>
+    <span class="ht3">Saint-Germain Football Club</span>
+  </h1>
+  <p class="hero-sub">14 saisons. 30 joueurs. 32 transferts. L'histoire du PSG racontée par la donnée.</p>
+  <div class="kpi-bar lg" id="kpiBar">
+    <div class="kpi"><div class="kv" id="k1">0</div><div class="kl">Titres L1</div></div>
+    <div class="kpi"><div class="kv" id="k2">0</div><div class="kl">M€ Mercato</div></div>
+    <div class="kpi"><div class="kv" id="k3">0</div><div class="kl">Record Cavani</div></div>
+    <div class="kpi"><div class="kv" id="k4">0</div><div class="kl">Joueurs</div></div>
+  </div>
+  <div class="hero-cta">
+    <a href="#palmares" class="btn btn-p">Explorer les données</a>
+    <a href="https://github.com/Sylian25/psg-data-hub" target="_blank" class="btn btn-s lg">Voir le code source</a>
+  </div>
+  <p class="mq-label">Icônes de l'ère QSI</p>
+  <div class="mq-wrap"><div class="mq-track" id="mq"></div></div>
+</section>
+
+<div class="divider"></div>
+
 <section id="palmares">
-  <div class="container">
-    <div class="section-header">
-      <div class="section-label">// 01 — Palmarès</div>
-      <h2 class="section-title">L'<em>empire</em><br>des trophées</h2>
-    </div>
-    <div class="grid-4 stagger" id="palmaresGrid">
-      <!-- filled by JS -->
-    </div>
+  <div class="ctr">
+    <div class="ey">// 01 <span class="s">—</span> Palmarès</div>
+    <h2 class="st">L'empire des <em>trophées</em></h2>
+    <p class="ss">Depuis le rachat par QSI en 2011, le PSG a dominé le football français.</p>
+    <div class="g4" id="palmaresGrid"></div>
   </div>
 </section>
 
-<div class="sep"></div>
+<div class="divider"></div>
 
-<!-- ═══════════════════ TOP SCORERS ═══════════════════ -->
 <section id="topscorers">
-  <div class="container">
-    <div class="section-header">
-      <div class="section-label">// 02 — Statistiques</div>
-      <h2 class="section-title">Top <em>buteurs</em><br>all-time</h2>
-    </div>
-    <div class="grid-2">
-      <div class="card">
-        <div class="card-title">🏆 Classement Buts — Ère QSI</div>
-        <table class="player-table" id="scorersTable">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Joueur</th>
-              <th>Buts</th>
-              <th>Passes D.</th>
-              <th>xG</th>
-            </tr>
-          </thead>
+  <div class="ctr">
+    <div class="ey">// 02 <span class="s">—</span> Statistiques</div>
+    <h2 class="st">Top <span class="g">buteurs</span><br>all-time</h2>
+    <div class="g2" style="align-items:start">
+      <div class="card lg reveal">
+        <div class="ct">Classement — Ère QSI</div>
+        <table class="tbl" id="scorersTable">
+          <thead><tr><th>#</th><th>Joueur</th><th>Buts</th><th>Passes D.</th><th>xG</th></tr></thead>
           <tbody></tbody>
         </table>
       </div>
-      <div class="card">
-        <div class="card-title">📊 Buts vs xG</div>
-        <div class="canvas-wrap"><canvas id="xgChart" height="280"></canvas></div>
+      <div class="card lg reveal">
+        <div class="ct">Buts vs xG</div>
+        <canvas id="xgChart" height="300"></canvas>
       </div>
     </div>
   </div>
 </section>
 
-<div class="sep"></div>
+<div class="divider"></div>
 
-<!-- ═══════════════════ MERCATO ═══════════════════ -->
 <section id="mercato">
-  <div class="container">
-    <div class="section-header">
-      <div class="section-label">// 03 — Mercato</div>
-      <h2 class="section-title">Le plus cher<br><em>de l'histoire</em></h2>
+  <div class="ctr">
+    <div class="ey">// 03 <span class="s">—</span> Mercato</div>
+    <h2 class="st">Le plus cher<br>de l'<em>histoire</em></h2>
+    <div class="g2" style="margin-bottom:1.25rem">
+      <div class="card lg reveal"><div class="ct">Dépenses & Recettes (M€)</div><canvas id="mercatoChart" height="240"></canvas></div>
+      <div class="card lg reveal"><div class="ct">Bilan Net par Saison (M€)</div><canvas id="bilanChart" height="240"></canvas></div>
     </div>
-    <div class="grid-2">
-      <div class="card">
-        <div class="card-title">💸 Dépenses & Recettes par Saison (M€)</div>
-        <div class="canvas-wrap"><canvas id="mercatoChart" height="260"></canvas></div>
-      </div>
-      <div class="card">
-        <div class="card-title">⚖️ Bilan Net par Saison (M€)</div>
-        <div class="canvas-wrap"><canvas id="bilanChart" height="260"></canvas></div>
-      </div>
-    </div>
-    <div style="margin-top: 1.5rem;">
-      <div class="card">
-        <div class="card-title">🔝 Transferts les plus chers</div>
-        <div id="topTransfers"></div>
-      </div>
-    </div>
+    <div class="card lg reveal"><div class="ct">Top 5 Transferts Entrants</div><div id="topTransfers"></div></div>
   </div>
 </section>
 
-<div class="sep"></div>
+<div class="divider"></div>
 
-<!-- ═══════════════════ SAISONS ═══════════════════ -->
 <section id="saisons">
-  <div class="container">
-    <div class="section-header">
-      <div class="section-label">// 04 — Histoire</div>
-      <h2 class="section-title">14 saisons,<br><em>une odyssée</em></h2>
-    </div>
-    <div class="grid-2">
-      <div class="card">
-        <div class="card-title">📈 Buts marqués en Ligue 1 par Saison</div>
-        <div class="canvas-wrap"><canvas id="goalsChart" height="260"></canvas></div>
-      </div>
-      <div>
-        <div class="timeline" id="timeline">
-          <!-- filled by JS -->
-        </div>
-      </div>
+  <div class="ctr">
+    <div class="ey">// 04 <span class="s">—</span> Histoire</div>
+    <h2 class="st">14 saisons,<br>une <em>odyssée</em></h2>
+    <div class="g2" style="align-items:start">
+      <div class="card lg reveal"><div class="ct">Buts marqués en Ligue 1</div><canvas id="goalsChart" height="260"></canvas></div>
+      <div class="timeline" id="timeline"></div>
     </div>
   </div>
 </section>
 
-<div class="sep"></div>
+<div class="divider"></div>
 
-<!-- ═══════════════════ EFFECTIF ═══════════════════ -->
 <section id="effectif">
-  <div class="container">
-    <div class="section-header">
-      <div class="section-label">// 05 — Effectif 2024-25</div>
-      <h2 class="section-title">L'effectif<br><em>actuel</em></h2>
+  <div class="ctr">
+    <div class="ey">// 05 <span class="s">—</span> Effectif 2024-25</div>
+    <h2 class="st">L'effectif <span class="g">actuel</span></h2>
+    <div class="tabs" id="posFilter">
+      <button class="tab active" data-pos="ALL">Tous</button>
+      <button class="tab" data-pos="ATT">Attaquants</button>
+      <button class="tab" data-pos="MID">Milieux</button>
+      <button class="tab" data-pos="DEF">Défenseurs</button>
+      <button class="tab" data-pos="GK">Gardiens</button>
     </div>
-    <div class="filter-tabs" id="posFilter">
-      <button class="tab-btn active" data-pos="ALL">Tous</button>
-      <button class="tab-btn" data-pos="ATT">Attaquants</button>
-      <button class="tab-btn" data-pos="MID">Milieux</button>
-      <button class="tab-btn" data-pos="DEF">Défenseurs</button>
-      <button class="tab-btn" data-pos="GK">Gardiens</button>
-    </div>
-    <div class="card">
-      <table class="player-table" id="squadTable">
-        <thead>
-          <tr>
-            <th>Joueur</th>
-            <th>Poste</th>
-            <th>Nat.</th>
-            <th>Âge</th>
-            <th>Matchs</th>
-            <th>Buts</th>
-            <th>Passes D.</th>
-            <th>xG</th>
-            <th>Minutes</th>
-          </tr>
-        </thead>
+    <div class="card lg reveal" style="overflow-x:auto">
+      <table class="tbl" id="squadTable">
+        <thead><tr><th>Joueur</th><th>Poste</th><th>Nat.</th><th>Âge</th><th>Matchs</th><th>Buts</th><th>Passes D.</th><th>xG</th></tr></thead>
         <tbody></tbody>
       </table>
     </div>
-    <div style="margin-top: 1.5rem;" class="grid-2">
-      <div class="card">
-        <div class="card-title">🌍 Nationalités (Joueurs toutes saisons)</div>
-        <div class="canvas-wrap"><canvas id="natChart" height="260"></canvas></div>
-      </div>
-      <div class="card">
-        <div class="card-title">📍 Répartition par poste (effectif actuel)</div>
-        <div class="canvas-wrap"><canvas id="posChart" height="260"></canvas></div>
-      </div>
+    <div class="g2" style="margin-top:1.25rem">
+      <div class="card lg reveal"><div class="ct">Nationalités recrutées</div><canvas id="natChart" height="240"></canvas></div>
+      <div class="card lg reveal"><div class="ct">Répartition par poste</div><canvas id="posChart" height="240"></canvas></div>
     </div>
   </div>
 </section>
 
-<!-- ═══════════════════ FOOTER ═══════════════════ -->
 <footer>
-  <div class="footer-title">PSG DATA HUB</div>
-  <div class="footer-sub">Projet Data Analytics — Python × SQL × JavaScript</div>
-  <ul class="footer-links">
-    <li><a href="https://github.com/Sylian25" target="_blank">GitHub</a></li>
-    <li><a href="#">LinkedIn</a></li>
-    <li><a href="#">Portfolio</a></li>
-  </ul>
-  <p style="margin-top:1.5rem; font-size:0.7rem; color: var(--text-muted); font-family: var(--font-mono);">
-    Données simulées à des fins pédagogiques · Stack : Python · Pandas · SQLite · Chart.js
-  </p>
+  <div class="ctr">
+    <div class="fl">PSG DATA HUB</div>
+    <div class="ft">Projet Data Analytics — Python × SQL × JavaScript</div>
+    <ul class="flinks">
+      <li><a href="https://github.com/Sylian25/psg-data-hub" target="_blank">GitHub</a></li>
+      <li><a href="https://www.linkedin.com/in/sylian-aoudia-867411298/" target="_blank">LinkedIn</a></li>
+      <li><a href="https://sylian-aoudia-eportfolio.vercel.app/" target="_blank">Portfolio</a></li>
+    </ul>
+    <div class="fd">
+      Stack : Python · Pandas · NumPy · SQLite · Chart.js · HTML/CSS/JS · Vercel<br>
+      Ce site est un projet personnel à but éducatif, sans affiliation avec le Paris Saint-Germain Football Club.<br>
+      Données simulées à des fins pédagogiques. © 2025 Sylian AOUDIA
+    </div>
+  </div>
 </footer>
 
 <script>
-// ═══════════════════════════════════════════════
-// DATA LOADING
-// ═══════════════════════════════════════════════
-let PSG = {};
+let D = {};
 
-async function loadData() {
-  const res = await fetch('assets/psg_data.json');
-  PSG = await res.json();
-  init();
+async function load() {
+  try { const r = await fetch('assets/psg_data.json'); D = await r.json(); init(); }
+  catch(e) { console.error('JSON load error:', e); }
 }
 
 function init() {
-  animateCounters();
-  renderPalmares();
-  renderScorersTable();
-  renderXGChart();
-  renderMercatoCharts();
-  renderTopTransfers();
-  renderGoalsChart();
-  renderTimeline();
-  renderSquadTable('ALL');
-  renderNatChart();
-  renderPosChart();
-  setupFilters();
-  setupIntersectionObserver();
+  counters(); marquee(); palmares(); scorers(); xg(); mercato(); transfers(); goals(); timeline(); squad('ALL'); nat(); pos(); tabs(); reveal();
 }
 
-// ═══════════════════════════════════════════════
-// COUNTERS ANIMATION
-// ═══════════════════════════════════════════════
-function animateCounters() {
-  // get real values from data
-  const totalDep = PSG.mercato.reduce((s, d) => s + d.depenses, 0);
-  const cavaniGoals = PSG.topScorers.find(p => p.name === 'Edinson Cavani')?.total_goals || 165;
-  const ligue1 = PSG.palmares.find(p => p.competition === 'Ligue 1')?.titres || 11;
-
-  const targets = [ligue1, Math.round(totalDep), cavaniGoals];
-  document.querySelectorAll('[data-target]').forEach((el, i) => {
-    el.dataset.target = targets[i];
-  });
-
-  const counters = document.querySelectorAll('[data-target]');
-  counters.forEach(counter => {
-    const target = parseInt(counter.dataset.target);
-    const duration = 1800;
-    const start = performance.now();
-    const easeOut = t => 1 - Math.pow(1 - t, 3);
-    function step(now) {
-      const t = Math.min((now - start) / duration, 1);
-      counter.textContent = Math.round(easeOut(t) * target).toLocaleString('fr');
-      if (t < 1) requestAnimationFrame(step);
-    }
-    setTimeout(() => requestAnimationFrame(step), 400);
+function counters() {
+  const dep = Math.round(D.mercato.reduce((s,d)=>s+d.depenses,0));
+  const cav = D.topScorers.find(p=>p.name==='Edinson Cavani')?.total_goals||165;
+  const l1  = D.palmares.find(p=>p.competition==='Ligue 1')?.titres||11;
+  [{id:'k1',t:l1},{id:'k2',t:dep},{id:'k3',t:cav},{id:'k4',t:30}].forEach(({id,t})=>{
+    const el=document.getElementById(id), dur=2000, s=performance.now(), ease=x=>1-Math.pow(1-x,3);
+    function step(n){const p=Math.min((n-s)/dur,1);el.textContent=Math.round(ease(p)*t).toLocaleString('fr');if(p<1)requestAnimationFrame(step);}
+    setTimeout(()=>requestAnimationFrame(step),500);
   });
 }
 
-// ═══════════════════════════════════════════════
-// PALMARÈS
-// ═══════════════════════════════════════════════
-function renderPalmares() {
-  const icons = { 'Ligue 1': '🏆', 'Coupe de France': '🥇', 'Coupe de la Ligue': '🏅', 'Champions League': '⭐' };
-  const grid = document.getElementById('palmaresGrid');
-  grid.innerHTML = PSG.palmares.map(p => `
-    <div class="stat-card">
-      <div style="font-size:2.5rem; margin-bottom:0.5rem">${icons[p.competition] || '🏆'}</div>
-      <div class="stat-card-val">${p.titres}</div>
-      <div class="stat-card-label">${p.competition}</div>
-    </div>
-  `).join('');
+function marquee() {
+  const names=['Ibrahimović','Cavani','Neymar Jr','Mbappé','Messi','Di María','Verratti','Thiago Silva','Marquinhos','Hakimi','Dembélé','Barcola'];
+  const t=document.getElementById('mq');
+  t.innerHTML=[...names,...names].map(n=>`<div class="mq-item lg"><div class="mq-dot"></div>${n}</div>`).join('');
 }
 
-// ═══════════════════════════════════════════════
-// TOP SCORERS TABLE
-// ═══════════════════════════════════════════════
-function renderScorersTable() {
-  const tbody = document.querySelector('#scorersTable tbody');
-  tbody.innerHTML = PSG.topScorers.map((p, i) => `
-    <tr>
-      <td class="rank">${i + 1}</td>
-      <td class="name">${p.name}</td>
-      <td class="goals">${p.total_goals}</td>
-      <td style="color: var(--text-muted)">${p.total_assists}</td>
-      <td style="color: var(--text-muted); font-family: var(--font-mono); font-size:0.8rem">${p.total_xG}</td>
-    </tr>
-  `).join('');
+function palmares() {
+  const ic={'Ligue 1':'🏆','Coupe de France':'🥇','Coupe de la Ligue':'🏅','Champions League':'⭐'};
+  document.getElementById('palmaresGrid').innerHTML=D.palmares.map(p=>`<div class="pc lg reveal"><div class="pi">${ic[p.competition]||'🏆'}</div><div class="pv">${p.titres}</div><div class="pl">${p.competition}</div></div>`).join('');
 }
 
-// ═══════════════════════════════════════════════
-// XG CHART
-// ═══════════════════════════════════════════════
-function renderXGChart() {
-  const top5 = PSG.topScorers.slice(0, 7);
-  new Chart(document.getElementById('xgChart'), {
-    type: 'bar',
-    data: {
-      labels: top5.map(p => p.name.split(' ').pop()),
-      datasets: [
-        { label: 'Buts réels', data: top5.map(p => p.total_goals), backgroundColor: '#004170cc', borderRadius: 6 },
-        { label: 'xG',         data: top5.map(p => p.total_xG),   backgroundColor: '#C7A84B55', borderRadius: 6, borderColor: '#C7A84B', borderWidth: 1 },
-      ]
-    },
-    options: chartOpts('Buts vs Expected Goals (top 7)')
-  });
+function scorers() {
+  document.querySelector('#scorersTable tbody').innerHTML=D.topScorers.map((p,i)=>`<tr><td class="rv">${i+1}</td><td class="nv">${p.name}</td><td class="gv">${p.total_goals}</td><td style="color:var(--fg2);font-family:var(--mono)">${p.total_assists}</td><td style="color:var(--fg2);font-family:var(--mono);font-size:0.72rem">${p.total_xG}</td></tr>`).join('');
 }
 
-// ═══════════════════════════════════════════════
-// MERCATO CHARTS
-// ═══════════════════════════════════════════════
-function renderMercatoCharts() {
-  const labels = PSG.mercato.map(m => m.season);
-
-  new Chart(document.getElementById('mercatoChart'), {
-    type: 'bar',
-    data: {
-      labels,
-      datasets: [
-        { label: 'Dépenses', data: PSG.mercato.map(m => m.depenses), backgroundColor: '#DA291Caa', borderRadius: 4 },
-        { label: 'Recettes', data: PSG.mercato.map(m => m.recettes), backgroundColor: '#004170cc', borderRadius: 4 },
-      ]
-    },
-    options: { ...chartOpts(), plugins: { legend: { display: true, labels: { color: '#8B949E', font: { size: 11 } } } } }
-  });
-
-  const bilans = PSG.mercato.map(m => m.bilan);
-  new Chart(document.getElementById('bilanChart'), {
-    type: 'bar',
-    data: {
-      labels,
-      datasets: [{
-        label: 'Bilan net',
-        data: bilans,
-        backgroundColor: bilans.map(b => b >= 0 ? '#5de8a055' : '#DA291C55'),
-        borderColor:      bilans.map(b => b >= 0 ? '#5de8a0'   : '#DA291C'),
-        borderWidth: 1,
-        borderRadius: 4,
-      }]
-    },
-    options: chartOpts()
-  });
+function xg() {
+  const t=D.topScorers.slice(0,7);
+  new Chart(document.getElementById('xgChart'),{type:'bar',data:{labels:t.map(p=>p.name.split(' ').pop()),datasets:[{label:'Buts',data:t.map(p=>p.total_goals),backgroundColor:'rgba(0,65,112,0.7)',borderRadius:6,borderSkipped:false},{label:'xG',data:t.map(p=>p.total_xG),backgroundColor:'rgba(199,168,75,0.3)',borderRadius:6,borderSkipped:false,borderColor:'rgba(199,168,75,0.5)',borderWidth:1}]},options:co()});
 }
 
-// ═══════════════════════════════════════════════
-// TOP TRANSFERS
-// ═══════════════════════════════════════════════
-function renderTopTransfers() {
-  const topT = [
-    { name: 'Neymar Jr',    fee: 222, from: 'FC Barcelone',   season: '2017-18', dir: 'IN' },
-    { name: 'Kylian Mbappé',fee: 180, from: 'AS Monaco',      season: '2021-22', dir: 'IN' },
-    { name: 'K. Mbappé (prêt)',fee:145,from: 'AS Monaco',     season: '2017-18', dir: 'IN' },
-    { name: 'João Neves',   fee: 70,  from: 'Benfica',        season: '2024-25', dir: 'IN' },
-    { name: 'Gonçalo Ramos',fee: 65,  from: 'Benfica',        season: '2024-25', dir: 'IN' },
-  ];
-  const container = document.getElementById('topTransfers');
-  container.innerHTML = topT.map((t, i) => {
-    const pct = (t.fee / 222) * 100;
-    return `
-      <div style="margin-bottom:1rem">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.35rem">
-          <div>
-            <span style="font-weight:600; font-size:0.875rem">${t.name}</span>
-            <span style="color:var(--text-muted); font-size:0.75rem; margin-left:0.5rem">${t.from} · ${t.season}</span>
-          </div>
-          <div style="font-family:var(--font-display); font-size:1.2rem; color:var(--psg-or)">€${t.fee}M</div>
-        </div>
-        <div style="height:4px; background:rgba(0,65,112,0.3); border-radius:2px; overflow:hidden">
-          <div style="height:100%; width:${pct}%; background:linear-gradient(to right, var(--psg-bleu), var(--psg-or)); border-radius:2px; transition: width 1s ease ${i*0.1}s"></div>
-        </div>
-      </div>
-    `;
-  }).join('');
+function mercato() {
+  const lb=D.mercato.map(m=>m.season);
+  new Chart(document.getElementById('mercatoChart'),{type:'bar',data:{labels:lb,datasets:[{label:'Dépenses',data:D.mercato.map(m=>m.depenses),backgroundColor:'rgba(218,41,28,0.55)',borderRadius:4},{label:'Recettes',data:D.mercato.map(m=>m.recettes),backgroundColor:'rgba(0,65,112,0.65)',borderRadius:4}]},options:{...co(),plugins:{legend:{display:true,labels:{color:'#7a8899',font:{size:9,family:'Geist Mono,monospace'}}}}}});
+  const b=D.mercato.map(m=>m.bilan);
+  new Chart(document.getElementById('bilanChart'),{type:'bar',data:{labels:lb,datasets:[{data:b,backgroundColor:b.map(v=>v>=0?'rgba(74,222,128,0.35)':'rgba(218,41,28,0.35)'),borderColor:b.map(v=>v>=0?'rgba(74,222,128,0.7)':'rgba(218,41,28,0.7)'),borderWidth:1,borderRadius:4}]},options:co()});
 }
 
-// ═══════════════════════════════════════════════
-// GOALS CHART
-// ═══════════════════════════════════════════════
-function renderGoalsChart() {
-  const labels = PSG.seasonsGoals.map(s => s.label);
-  const goals  = PSG.seasonsGoals.map(s => s.goals_scored);
-  new Chart(document.getElementById('goalsChart'), {
-    type: 'line',
-    data: {
-      labels,
-      datasets: [{
-        label: 'Buts marqués',
-        data: goals,
-        fill: true,
-        backgroundColor: 'rgba(0,65,112,0.2)',
-        borderColor: '#004170',
-        pointBackgroundColor: goals.map(g => g >= 100 ? '#C7A84B' : '#004170'),
-        pointRadius: 5,
-        tension: 0.4,
-      }]
-    },
-    options: chartOpts()
-  });
+function transfers() {
+  const top=[{name:'Neymar Jr',fee:222,from:'FC Barcelone',s:'2017-18'},{name:'Kylian Mbappé',fee:180,from:'AS Monaco',s:'2021-22'},{name:'K. Mbappé (prêt)',fee:145,from:'AS Monaco',s:'2017-18'},{name:'João Neves',fee:70,from:'Benfica',s:'2024-25'},{name:'Gonçalo Ramos',fee:65,from:'Benfica',s:'2024-25'}];
+  document.getElementById('topTransfers').innerHTML=top.map(t=>`<div class="ti"><div class="tr2"><div><span class="tn">${t.name}</span><span class="tm">${t.from} · ${t.s}</span></div><span class="tf">€${t.fee}M</span></div><div class="bt"><div class="bf" style="width:0%" data-w="${(t.fee/222*100).toFixed(1)}%"></div></div></div>`).join('');
+  setTimeout(()=>document.querySelectorAll('.bf').forEach(b=>b.style.width=b.dataset.w),400);
 }
 
-// ═══════════════════════════════════════════════
-// TIMELINE
-// ═══════════════════════════════════════════════
-function renderTimeline() {
-  const ucl_class = {
-    'Finale LDC':   'ucl-finale',
-    'Demi-finales': 'ucl-demi',
-    'Quarts':       'ucl-quarts',
-    'Huitièmes':    'ucl-huitiemes',
-  };
-  const tl = document.getElementById('timeline');
-  // Show last 7 seasons
-  const recent = PSG.seasonsGoals.slice(-7).reverse();
-  tl.innerHTML = recent.map(s => {
-    const cls = ucl_class[s.ucl_stage] || 'ucl-huitiemes';
-    return `
-      <div class="timeline-item">
-        <div style="display:flex; justify-content:space-between; align-items:flex-start">
-          <div>
-            <div class="timeline-season">${s.label}</div>
-            <div class="timeline-ucl">LDC — ${s.ucl_stage}</div>
-          </div>
-          <div style="text-align:right">
-            <div style="font-family:var(--font-display); font-size:1.8rem; color: var(--psg-or); line-height:1">${s.goals_scored}</div>
-            <div style="font-family:var(--font-mono); font-size:0.65rem; color:var(--text-muted)">BUTS L1</div>
-          </div>
-        </div>
-        <div><span class="ucl-badge ${cls}">${s.ucl_stage}</span></div>
-      </div>
-    `;
-  }).join('');
+function goals() {
+  const lb=D.seasonsGoals.map(s=>s.label), d=D.seasonsGoals.map(s=>s.goals_scored);
+  new Chart(document.getElementById('goalsChart'),{type:'line',data:{labels:lb,datasets:[{data:d,fill:true,backgroundColor:'rgba(0,65,112,0.12)',borderColor:'rgba(0,100,180,0.75)',pointBackgroundColor:d.map(v=>v>=100?'hsl(42,90%,62%)':'rgba(0,100,180,0.8)'),pointRadius:5,tension:0.4}]},options:co()});
 }
 
-// ═══════════════════════════════════════════════
-// SQUAD TABLE
-// ═══════════════════════════════════════════════
-function renderSquadTable(posFilter) {
-  const tbody = document.querySelector('#squadTable tbody');
-  const data = posFilter === 'ALL'
-    ? PSG.currentSquad
-    : PSG.currentSquad.filter(p => p.position === posFilter);
-
-  tbody.innerHTML = data.map(p => {
-    const age = 2025 - p.birth_year;
-    return `
-      <tr>
-        <td class="name">${p.name}</td>
-        <td><span class="badge-pos ${p.position}">${p.position}</span></td>
-        <td style="color:var(--text-muted); font-size:0.8rem">${p.nationality}</td>
-        <td style="font-family:var(--font-mono); font-size:0.8rem">${age}</td>
-        <td style="font-family:var(--font-mono)">${p.appearances}</td>
-        <td class="goals">${p.goals}</td>
-        <td style="color:var(--psg-or)">${p.assists}</td>
-        <td style="color:var(--text-muted); font-family:var(--font-mono); font-size:0.8rem">${p.xG}</td>
-        <td style="color:var(--text-muted); font-family:var(--font-mono); font-size:0.8rem">${p.minutes.toLocaleString('fr')}</td>
-      </tr>
-    `;
-  }).join('');
+function timeline() {
+  const cls={'Finale LDC':'uf','Demi-finales':'ud','Quarts':'uq','Huitièmes':'uh'};
+  document.getElementById('timeline').innerHTML=D.seasonsGoals.slice(-7).reverse().map(s=>`<div class="tli lg"><div class="tlrow"><div><div class="tls">${s.label}</div><span class="ub ${cls[s.ucl_stage]||'uh'}">${s.ucl_stage}</span></div><div style="text-align:right"><div class="tlg">${s.goals_scored}</div><div class="tlgl">buts L1</div></div></div></div>`).join('');
 }
 
-// ═══════════════════════════════════════════════
-// NAT & POS CHARTS
-// ═══════════════════════════════════════════════
-function renderNatChart() {
-  const top8 = PSG.nationalities.slice(0, 8);
-  new Chart(document.getElementById('natChart'), {
-    type: 'bar',
-    data: {
-      labels: top8.map(n => n.nationality),
-      datasets: [{ label: 'Joueurs', data: top8.map(n => n.count),
-        backgroundColor: '#004170bb', borderRadius: 6, borderColor: '#004170', borderWidth: 1 }]
-    },
-    options: chartOpts()
-  });
+function squad(pos) {
+  const d=pos==='ALL'?D.currentSquad:D.currentSquad.filter(p=>p.position===pos);
+  document.querySelector('#squadTable tbody').innerHTML=d.map(p=>`<tr><td class="nv">${p.name}</td><td><span class="pos ${p.position}">${p.position}</span></td><td style="color:var(--fg2);font-size:0.72rem">${p.nationality}</td><td style="font-family:var(--mono)">${2025-p.birth_year}</td><td style="font-family:var(--mono)">${p.appearances}</td><td class="gv">${p.goals}</td><td style="font-family:var(--mono);color:var(--psg-or)">${p.assists}</td><td style="font-family:var(--mono);color:var(--fg2);font-size:0.72rem">${p.xG}</td></tr>`).join('');
 }
 
-function renderPosChart() {
-  const pos = {};
-  PSG.currentSquad.forEach(p => { pos[p.position] = (pos[p.position] || 0) + 1; });
-  new Chart(document.getElementById('posChart'), {
-    type: 'doughnut',
-    data: {
-      labels: Object.keys(pos),
-      datasets: [{
-        data: Object.values(pos),
-        backgroundColor: ['#DA291Ccc','#004170cc','#C7A84Bcc','#7B61FFcc'],
-        borderColor: '#0F1621', borderWidth: 3,
-      }]
-    },
-    options: {
-      plugins: {
-        legend: { position: 'bottom', labels: { color: '#8B949E', padding: 15, font: { size: 11, family: 'JetBrains Mono' } } }
-      },
-      cutout: '65%',
-    }
-  });
+function nat() {
+  const t=D.nationalities.slice(0,8);
+  new Chart(document.getElementById('natChart'),{type:'bar',data:{labels:t.map(n=>n.nationality),datasets:[{data:t.map(n=>n.count),backgroundColor:'rgba(0,65,112,0.6)',borderRadius:6}]},options:co()});
 }
 
-// ═══════════════════════════════════════════════
-// FILTERS
-// ═══════════════════════════════════════════════
-function setupFilters() {
-  document.querySelectorAll('.tab-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      renderSquadTable(btn.dataset.pos);
-    });
-  });
+function pos() {
+  const p={};D.currentSquad.forEach(x=>{p[x.position]=(p[x.position]||0)+1;});
+  new Chart(document.getElementById('posChart'),{type:'doughnut',data:{labels:Object.keys(p),datasets:[{data:Object.values(p),backgroundColor:['rgba(218,41,28,0.65)','rgba(0,65,112,0.65)','rgba(199,168,75,0.65)','rgba(139,92,246,0.65)'],borderColor:'rgba(0,0,0,0.3)',borderWidth:2}]},options:{cutout:'65%',plugins:{legend:{position:'bottom',labels:{color:'#7a8899',padding:12,font:{size:9,family:'Geist Mono,monospace'}}}}}});
 }
 
-// ═══════════════════════════════════════════════
-// SCROLL ANIMATIONS
-// ═══════════════════════════════════════════════
-function setupIntersectionObserver() {
-  const obs = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) e.target.classList.add('visible');
-    });
-  }, { threshold: 0.1 });
-
-  document.querySelectorAll('.stagger').forEach(el => obs.observe(el));
+function tabs() {
+  document.querySelectorAll('.tab').forEach(b=>{b.addEventListener('click',()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');squad(b.dataset.pos);});});
 }
 
-// ═══════════════════════════════════════════════
-// CHART DEFAULTS
-// ═══════════════════════════════════════════════
-function chartOpts(title = '') {
-  return {
-    responsive: true,
-    maintainAspectRatio: true,
-    plugins: {
-      legend: { display: false },
-      title: title ? { display: false } : { display: false },
-      tooltip: {
-        backgroundColor: '#0F1621',
-        borderColor: 'rgba(0,65,112,0.5)',
-        borderWidth: 1,
-        titleColor: '#C7A84B',
-        bodyColor: '#E8EEF5',
-        padding: 10,
-        cornerRadius: 8,
-      }
-    },
-    scales: {
-      x: {
-        ticks: { color: '#7A8BA0', font: { size: 10, family: 'JetBrains Mono' }, maxRotation: 45 },
-        grid:  { color: 'rgba(0,65,112,0.1)' },
-        border: { color: 'transparent' }
-      },
-      y: {
-        ticks: { color: '#7A8BA0', font: { size: 10, family: 'JetBrains Mono' } },
-        grid:  { color: 'rgba(0,65,112,0.15)' },
-        border: { color: 'transparent' }
-      }
-    }
-  };
+function reveal() {
+  const o=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('in');}),{threshold:0.06});
+  document.querySelectorAll('.reveal').forEach(el=>o.observe(el));
 }
 
-// ─── START ────────────────────────────────────
-loadData();
+function co() {
+  return {responsive:true,maintainAspectRatio:true,plugins:{legend:{display:false},tooltip:{backgroundColor:'#0d1520',borderColor:'rgba(0,65,112,0.35)',borderWidth:1,titleColor:'hsl(42,90%,62%)',bodyColor:'#e8eef5',padding:10,cornerRadius:8}},scales:{x:{ticks:{color:'#55667a',font:{size:8,family:'Geist Mono,monospace'},maxRotation:45},grid:{color:'rgba(255,255,255,0.03)'},border:{color:'transparent'}},y:{ticks:{color:'#55667a',font:{size:8,family:'Geist Mono,monospace'}},grid:{color:'rgba(255,255,255,0.03)'},border:{color:'transparent'}}}};
+}
+
+load();
 </script>
 </body>
 </html>
