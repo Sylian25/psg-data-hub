@@ -154,7 +154,6 @@ cd dashboard && open index.html
 ## 👤 Auteur
 
 **Sylian AOUDIA** — Data Analyst RH en alternance @ BNP Paribas IT Group  
-Étudiant BUT GEA | Candidat Master MIAGE
 
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-blue?style=flat&logo=linkedin)](https://www.linkedin.com/in/sylian-aoudia-867411298/)
 [![GitHub](https://img.shields.io/badge/GitHub-black?style=flat&logo=github)](https://github.com/Sylian25)
