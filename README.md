@@ -12,7 +12,7 @@ Il couvre **14 saisons** (2011-2025), **30 joueurs**, **32 transferts** et **76 
 
 **Objectif :** Mettre en pratique Python (Pandas, NumPy), SQL (modélisation, requêtes analytiques) et la data visualisation, en appliquant une approche "Data Analyst RH" à la gestion d'un effectif de football.
 
-🌐 **[→ Voir le dashboard en ligne](https://your-site.vercel.app)**
+🌐 **[→ Voir le dashboard en ligne](https://psg-data-hub.vercel.app/)*
 
 ---
 
@@ -156,9 +156,9 @@ cd dashboard && open index.html
 **Sylian AOUDIA** — Data Analyst RH en alternance @ BNP Paribas IT Group  
 Étudiant BUT GEA | Candidat Master MIAGE
 
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-blue?style=flat&logo=linkedin)](https://linkedin.com)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-blue?style=flat&logo=linkedin)](https://www.linkedin.com/in/sylian-aoudia-867411298/)
 [![GitHub](https://img.shields.io/badge/GitHub-black?style=flat&logo=github)](https://github.com/Sylian25)
-[![Portfolio](https://img.shields.io/badge/Portfolio-white?style=flat)](https://your-site.vercel.app)
+[![Portfolio](https://img.shields.io/badge/Portfolio-white?style=flat)](https://sylian-aoudia-eportfolio.vercel.app/)
 
 ---
 
