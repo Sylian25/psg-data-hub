@@ -1,0 +1,33 @@
+transfer_id,player_id,season_id,direction,from_club,to_club,fee_m_eur,transfer_type
+1,1,1,IN,AC Milan,PSG,12.0,Achat
+2,4,1,IN,LA Galaxy,PSG,0.0,Libre
+3,3,2,IN,Chelsea,PSG,42.0,Achat
+4,9,2,IN,Chelsea,PSG,49.5,Achat
+5,2,3,IN,Napoli,PSG,64.5,Achat
+6,7,3,IN,Pescara,PSG,9.0,Achat
+7,8,4,IN,Roma,PSG,31.4,Achat
+8,6,5,IN,PSG Academy,PSG,0.0,Formation
+9,14,6,IN,Juventus,PSG,63.0,Achat
+10,11,7,IN,FC Barcelone,PSG,222.0,Achat
+11,12,7,IN,AS Monaco,PSG,145.0,Prêt
+12,17,9,IN,Real Madrid,PSG,15.0,Achat
+13,18,10,IN,Inter Milan,PSG,60.0,Achat
+14,13,11,IN,FC Barcelone,PSG,0.0,Libre
+15,12,11,IN,AS Monaco,PSG,180.0,Achat
+16,25,11,IN,AC Milan,PSG,0.0,Libre
+17,21,13,IN,FC Barcelone,PSG,50.0,Achat
+18,22,13,IN,Olympique Lyonnais,PSG,45.0,Achat
+19,23,13,IN,FC Porto,PSG,41.5,Achat
+20,28,14,IN,Benfica,PSG,65.0,Achat
+21,29,14,IN,Benfica,PSG,70.0,Achat
+22,30,14,IN,Eintracht Frankfurt,PSG,40.0,Achat
+23,1,6,OUT,PSG,Manchester United,0.0,Libre
+24,9,5,OUT,PSG,FC Barcelone,32.0,Achat
+25,4,2,OUT,PSG,Retraite,0.0,Libre
+26,14,12,OUT,PSG,Juventus,0.0,Libre
+27,2,12,OUT,PSG,Atlético Madrid,0.0,Libre
+28,3,11,OUT,PSG,Chelsea,0.0,Libre
+29,11,13,OUT,PSG,Al-Hilal,90.0,Achat
+30,12,13,OUT,PSG,Real Madrid,0.0,Libre
+31,13,13,OUT,PSG,Inter Miami,0.0,Libre
+32,7,13,OUT,PSG,Al-Arabi SC,0.0,Libre

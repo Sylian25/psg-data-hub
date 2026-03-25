@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PSG DATA HUB — Analyse & Histoire du Club</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root {
+  --psg-bleu:    #004170;
+  --psg-rouge:   #DA291C;
+  --psg-or:      #C7A84B;
+  --bg-deep:     #080C10;
+  --bg-card:     #0F1621;
+  --bg-card2:    #151D2B;
+  --border:      rgba(0,65,112,0.35);
+  --border-glow: rgba(199,168,75,0.4);
+  --text:        #E8EEF5;
+  --text-muted:  #7A8BA0;
+  --font-display: 'Bebas Neue', sans-serif;
+  --font-body:    'DM Sans', sans-serif;
+  --font-mono:    'JetBrains Mono', monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg-deep);
+  color: var(--text);
+  font-family: var(--font-body);
+  overflow-x: hidden;
+}
+
+/* ── NOISE TEXTURE ── */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none; z-index: 0;
+}
+
+/* ── HERO ── */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+  justify-content: center; align-items: center;
+  text-align: center;
+  overflow: hidden;
+  padding: 2rem;
+}
+
+.hero-bg {
+  position: absolute; inset: 0;
+  background: 
+    radial-gradient(ellipse 80% 60% at 50% -10%, rgba(0,65,112,0.5) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 40% at 80% 80%,  rgba(218,41,28,0.15) 0%, transparent 60%),
+    radial-gradient(ellipse 30% 30% at 20% 70%,  rgba(199,168,75,0.1) 0%, transparent 60%);
+  z-index: 0;
+}
+
+/* Rotating circle in background */
+.hero-ring {
+  position: absolute;
+  width: 700px; height: 700px;
+  border: 1px solid rgba(0,65,112,0.2);
+  border-radius: 50%;
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  animation: rotate 30s linear infinite;
+}
+.hero-ring::after {
+  content: '';
+  position: absolute;
+  width: 4px; height: 4px;
+  background: var(--psg-or);
+  border-radius: 50%;
+  top: -2px; left: 50%;
+  box-shadow: 0 0 12px var(--psg-or);
+}
+.hero-ring-2 {
+  width: 450px; height: 450px;
+  border-color: rgba(218,41,28,0.15);
+  animation-direction: reverse;
+  animation-duration: 20s;
+}
+
+@keyframes rotate { to { transform: translate(-50%,-50%) rotate(360deg); } }
+
+.hero-content { position: relative; z-index: 2; }
+
+.hero-badge {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  color: var(--psg-or);
+  border: 1px solid var(--border-glow);
+  padding: 0.4em 1.2em;
+  border-radius: 100px;
+  background: rgba(199,168,75,0.05);
+  margin-bottom: 2rem;
+  animation: fadeUp 0.8s ease both;
+}
+
+.hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(5rem, 15vw, 12rem);
+  line-height: 0.85;
+  letter-spacing: 0.02em;
+  animation: fadeUp 0.8s ease 0.1s both;
+}
+
+.hero-title span.psg {
+  background: linear-gradient(135deg, #fff 0%, #b8cee0 50%, #7aa7c7 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-title span.data {
+  background: linear-gradient(135deg, var(--psg-or) 0%, #e8c96a 50%, var(--psg-or) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-sub {
+  font-size: 1.1rem;
+  color: var(--text-muted);
+  max-width: 500px; margin: 1.5rem auto 3rem;
+  font-weight: 300;
+  line-height: 1.6;
+  animation: fadeUp 0.8s ease 0.2s both;
+}
+
+.hero-stats {
+  display: flex; gap: 3rem; justify-content: center;
+  animation: fadeUp 0.8s ease 0.3s both;
+  flex-wrap: wrap;
+}
+
+.hero-stat { text-align: center; }
+.hero-stat-val {
+  font-family: var(--font-display);
+  font-size: 3rem;
+  color: var(--psg-or);
+  line-height: 1;
+  display: block;
+}
+.hero-stat-label {
+  font-size: 0.75rem;
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.scroll-hint {
+  position: absolute; bottom: 2.5rem; left: 50%;
+  transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center;
+  gap: 0.5rem;
+  color: var(--text-muted);
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  font-family: var(--font-mono);
+  animation: bounce 2s ease infinite;
+  z-index: 2;
+}
+.scroll-line {
+  width: 1px; height: 40px;
+  background: linear-gradient(to bottom, var(--psg-or), transparent);
+}
+@keyframes bounce {
+  0%,100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(8px); }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── NAV ── */
+nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(8,12,16,0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 2rem;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 60px;
+}
+
+.nav-logo {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  letter-spacing: 0.05em;
+  color: var(--psg-or);
+}
+
+.nav-links {
+  display: flex; gap: 0.25rem;
+  list-style: none;
+}
+
+.nav-links a {
+  display: block;
+  padding: 0.4em 0.9em;
+  font-size: 0.8rem;
+  font-family: var(--font-mono);
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  text-decoration: none;
+  border-radius: 6px;
+  transition: all 0.2s;
+  text-transform: uppercase;
+}
+.nav-links a:hover {
+  color: var(--text);
+  background: rgba(0,65,112,0.25);
+}
+
+/* ── LAYOUT ── */
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+section {
+  padding: 6rem 0;
+}
+
+.section-header {
+  margin-bottom: 3.5rem;
+}
+
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.25em;
+  color: var(--psg-or);
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  line-height: 0.9;
+  letter-spacing: 0.03em;
+}
+
+.section-title em {
+  color: var(--psg-rouge);
+  font-style: normal;
+}
+
+/* ── CARDS ── */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1.75rem;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.3s, transform 0.3s;
+}
+.card:hover {
+  border-color: rgba(199,168,75,0.3);
+  transform: translateY(-3px);
+}
+.card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(0,65,112,0.06) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.card-title {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  color: var(--psg-or);
+  text-transform: uppercase;
+  margin-bottom: 1.25rem;
+}
+
+/* ── GRID LAYOUTS ── */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem; }
+
+@media (max-width: 900px) {
+  .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+}
+
+/* ── STAT CARDS (palmarès) ── */
+.stat-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.5rem 1.25rem;
+  text-align: center;
+  transition: all 0.3s;
+  cursor: default;
+}
+.stat-card:hover {
+  border-color: var(--psg-or);
+  box-shadow: 0 0 30px rgba(199,168,75,0.1);
+}
+.stat-card-val {
+  font-family: var(--font-display);
+  font-size: 3.5rem;
+  line-height: 1;
+  color: var(--psg-or);
+}
+.stat-card-label {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-top: 0.5rem;
+  font-family: var(--font-mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* ── PLAYER TABLE ── */
+.player-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.player-table th {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+.player-table td {
+  padding: 0.7rem 1rem;
+  font-size: 0.875rem;
+  border-bottom: 1px solid rgba(0,65,112,0.15);
+  transition: background 0.2s;
+}
+.player-table tr:hover td {
+  background: rgba(0,65,112,0.1);
+}
+.player-table .rank {
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+  font-size: 0.75rem;
+}
+.player-table .name {
+  font-weight: 600;
+  color: var(--text);
+}
+.player-table .goals {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  color: var(--psg-or);
+}
+.badge-pos {
+  display: inline-block;
+  padding: 0.15em 0.6em;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+.badge-pos.ATT { background: rgba(218,41,28,0.2); color: #ff6b5b; }
+.badge-pos.MID { background: rgba(0,65,112,0.3); color: #6ba0d4; }
+.badge-pos.DEF { background: rgba(199,168,75,0.2); color: var(--psg-or); }
+.badge-pos.GK  { background: rgba(123,97,255,0.2); color: #a78bfa; }
+
+/* ── TIMELINE ── */
+.timeline {
+  position: relative;
+  padding-left: 2rem;
+}
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 1px;
+  background: linear-gradient(to bottom, var(--psg-or), var(--psg-rouge), transparent);
+}
+.timeline-item {
+  position: relative;
+  margin-bottom: 2rem;
+  padding: 1.25rem 1.5rem;
+  background: var(--bg-card2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  transition: all 0.3s;
+}
+.timeline-item:hover {
+  border-color: rgba(199,168,75,0.3);
+  transform: translateX(4px);
+}
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: -2.45rem; top: 1.5rem;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--psg-or);
+  box-shadow: 0 0 10px var(--psg-or);
+}
+.timeline-season {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  color: var(--psg-or);
+}
+.timeline-ucl {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.timeline-scorer {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  margin-top: 0.25rem;
+}
+.timeline-scorer strong { color: var(--text); }
+
+.ucl-badge {
+  display: inline-block;
+  padding: 0.2em 0.7em;
+  border-radius: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  margin-top: 0.5rem;
+  font-weight: 600;
+}
+.ucl-finale  { background: rgba(199,168,75,0.2); color: var(--psg-or); border: 1px solid var(--psg-or); }
+.ucl-demi    { background: rgba(0,65,112,0.3);   color: #6ba0d4; }
+.ucl-quarts  { background: rgba(0,80,50,0.3);    color: #6dd49e; }
+.ucl-huitiemes { background: rgba(80,80,80,0.3); color: #a0a0a0; }
+
+/* ── SEPARATOR ── */
+.sep {
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--border), transparent);
+  margin: 0;
+}
+
+/* ── FOOTER ── */
+footer {
+  padding: 3rem 2rem;
+  text-align: center;
+  border-top: 1px solid var(--border);
+}
+.footer-title {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  color: var(--psg-or);
+  margin-bottom: 0.5rem;
+}
+.footer-sub {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  letter-spacing: 0.15em;
+}
+.footer-links {
+  display: flex; gap: 1.5rem; justify-content: center;
+  margin-top: 1.5rem; list-style: none;
+}
+.footer-links a {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-decoration: none;
+  letter-spacing: 0.1em;
+  transition: color 0.2s;
+}
+.footer-links a:hover { color: var(--psg-or); }
+
+/* ── MERCATO COLOR INDICATOR ── */
+.bilan-pos { color: #5de8a0; }
+.bilan-neg { color: var(--psg-rouge); }
+
+/* ── FILTER TABS ── */
+.filter-tabs {
+  display: flex; gap: 0.5rem; margin-bottom: 1.5rem; flex-wrap: wrap;
+}
+.tab-btn {
+  padding: 0.4em 1em;
+  border-radius: 100px;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.tab-btn:hover, .tab-btn.active {
+  background: var(--psg-bleu);
+  border-color: var(--psg-bleu);
+  color: white;
+}
+
+/* ── GLOW ACCENT ── */
+.glow-rouge { text-shadow: 0 0 20px rgba(218,41,28,0.5); }
+.glow-or    { text-shadow: 0 0 20px rgba(199,168,75,0.5); }
+
+/* Stagger animation */
+.stagger > * {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.stagger.visible > * { opacity: 1; transform: none; }
+.stagger.visible > *:nth-child(1) { transition-delay: 0s; }
+.stagger.visible > *:nth-child(2) { transition-delay: 0.08s; }
+.stagger.visible > *:nth-child(3) { transition-delay: 0.16s; }
+.stagger.visible > *:nth-child(4) { transition-delay: 0.24s; }
+
+.canvas-wrap { position: relative; }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════ HERO ═══════════════════ -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-ring"></div>
+  <div class="hero-ring hero-ring-2"></div>
+  <div class="hero-content">
+    <div class="hero-badge">⚽ DATA ANALYTICS — ÈRE QSI 2011–2025</div>
+    <h1 class="hero-title">
+      <span class="psg">PSG</span><br>
+      <span class="data">DATA</span><br>
+      <span style="color: rgba(255,255,255,0.15); font-size: 0.4em; letter-spacing: 0.3em;">HUB</span>
+    </h1>
+    <p class="hero-sub">
+      14 saisons de données. 30 joueurs. 32 transferts. 76 fiches statistiques.<br>
+      L'histoire du Paris Saint-Germain racontée par la donnée.
+    </p>
+    <div class="hero-stats" id="heroStats">
+      <div class="hero-stat">
+        <span class="hero-stat-val" data-target="11">0</span>
+        <span class="hero-stat-label">Titres Ligue 1</span>
+      </div>
+      <div class="hero-stat">
+        <span class="hero-stat-val" data-target="1221">0</span>
+        <span class="hero-stat-label">Millions € dépensés</span>
+      </div>
+      <div class="hero-stat">
+        <span class="hero-stat-val" data-target="165">0</span>
+        <span class="hero-stat-label">Buts — Record Cavani</span>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <span>EXPLORER</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ═══════════════════ NAV ═══════════════════ -->
+<nav>
+  <div class="nav-logo">PSG.DATA</div>
+  <ul class="nav-links">
+    <li><a href="#palmares">Palmarès</a></li>
+    <li><a href="#topscorers">Buteurs</a></li>
+    <li><a href="#mercato">Mercato</a></li>
+    <li><a href="#saisons">Saisons</a></li>
+    <li><a href="#effectif">Effectif</a></li>
+  </ul>
+</nav>
+
+<!-- ═══════════════════ PALMARÈS ═══════════════════ -->
+<section id="palmares">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-label">// 01 — Palmarès</div>
+      <h2 class="section-title">L'<em>empire</em><br>des trophées</h2>
+    </div>
+    <div class="grid-4 stagger" id="palmaresGrid">
+      <!-- filled by JS -->
+    </div>
+  </div>
+</section>
+
+<div class="sep"></div>
+
+<!-- ═══════════════════ TOP SCORERS ═══════════════════ -->
+<section id="topscorers">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-label">// 02 — Statistiques</div>
+      <h2 class="section-title">Top <em>buteurs</em><br>all-time</h2>
+    </div>
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title">🏆 Classement Buts — Ère QSI</div>
+        <table class="player-table" id="scorersTable">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Joueur</th>
+              <th>Buts</th>
+              <th>Passes D.</th>
+              <th>xG</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <div class="card">
+        <div class="card-title">📊 Buts vs xG</div>
+        <div class="canvas-wrap"><canvas id="xgChart" height="280"></canvas></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="sep"></div>
+
+<!-- ═══════════════════ MERCATO ═══════════════════ -->
+<section id="mercato">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-label">// 03 — Mercato</div>
+      <h2 class="section-title">Le plus cher<br><em>de l'histoire</em></h2>
+    </div>
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title">💸 Dépenses & Recettes par Saison (M€)</div>
+        <div class="canvas-wrap"><canvas id="mercatoChart" height="260"></canvas></div>
+      </div>
+      <div class="card">
+        <div class="card-title">⚖️ Bilan Net par Saison (M€)</div>
+        <div class="canvas-wrap"><canvas id="bilanChart" height="260"></canvas></div>
+      </div>
+    </div>
+    <div style="margin-top: 1.5rem;">
+      <div class="card">
+        <div class="card-title">🔝 Transferts les plus chers</div>
+        <div id="topTransfers"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="sep"></div>
+
+<!-- ═══════════════════ SAISONS ═══════════════════ -->
+<section id="saisons">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-label">// 04 — Histoire</div>
+      <h2 class="section-title">14 saisons,<br><em>une odyssée</em></h2>
+    </div>
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title">📈 Buts marqués en Ligue 1 par Saison</div>
+        <div class="canvas-wrap"><canvas id="goalsChart" height="260"></canvas></div>
+      </div>
+      <div>
+        <div class="timeline" id="timeline">
+          <!-- filled by JS -->
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="sep"></div>
+
+<!-- ═══════════════════ EFFECTIF ═══════════════════ -->
+<section id="effectif">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-label">// 05 — Effectif 2024-25</div>
+      <h2 class="section-title">L'effectif<br><em>actuel</em></h2>
+    </div>
+    <div class="filter-tabs" id="posFilter">
+      <button class="tab-btn active" data-pos="ALL">Tous</button>
+      <button class="tab-btn" data-pos="ATT">Attaquants</button>
+      <button class="tab-btn" data-pos="MID">Milieux</button>
+      <button class="tab-btn" data-pos="DEF">Défenseurs</button>
+      <button class="tab-btn" data-pos="GK">Gardiens</button>
+    </div>
+    <div class="card">
+      <table class="player-table" id="squadTable">
+        <thead>
+          <tr>
+            <th>Joueur</th>
+            <th>Poste</th>
+            <th>Nat.</th>
+            <th>Âge</th>
+            <th>Matchs</th>
+            <th>Buts</th>
+            <th>Passes D.</th>
+            <th>xG</th>
+            <th>Minutes</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <div style="margin-top: 1.5rem;" class="grid-2">
+      <div class="card">
+        <div class="card-title">🌍 Nationalités (Joueurs toutes saisons)</div>
+        <div class="canvas-wrap"><canvas id="natChart" height="260"></canvas></div>
+      </div>
+      <div class="card">
+        <div class="card-title">📍 Répartition par poste (effectif actuel)</div>
+        <div class="canvas-wrap"><canvas id="posChart" height="260"></canvas></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ FOOTER ═══════════════════ -->
+<footer>
+  <div class="footer-title">PSG DATA HUB</div>
+  <div class="footer-sub">Projet Data Analytics — Python × SQL × JavaScript</div>
+  <ul class="footer-links">
+    <li><a href="https://github.com/Sylian25" target="_blank">GitHub</a></li>
+    <li><a href="#">LinkedIn</a></li>
+    <li><a href="#">Portfolio</a></li>
+  </ul>
+  <p style="margin-top:1.5rem; font-size:0.7rem; color: var(--text-muted); font-family: var(--font-mono);">
+    Données simulées à des fins pédagogiques · Stack : Python · Pandas · SQLite · Chart.js
+  </p>
+</footer>
+
+<script>
+// ═══════════════════════════════════════════════
+// DATA LOADING
+// ═══════════════════════════════════════════════
+let PSG = {};
+
+async function loadData() {
+  const res = await fetch('assets/psg_data.json');
+  PSG = await res.json();
+  init();
+}
+
+function init() {
+  animateCounters();
+  renderPalmares();
+  renderScorersTable();
+  renderXGChart();
+  renderMercatoCharts();
+  renderTopTransfers();
+  renderGoalsChart();
+  renderTimeline();
+  renderSquadTable('ALL');
+  renderNatChart();
+  renderPosChart();
+  setupFilters();
+  setupIntersectionObserver();
+}
+
+// ═══════════════════════════════════════════════
+// COUNTERS ANIMATION
+// ═══════════════════════════════════════════════
+function animateCounters() {
+  // get real values from data
+  const totalDep = PSG.mercato.reduce((s, d) => s + d.depenses, 0);
+  const cavaniGoals = PSG.topScorers.find(p => p.name === 'Edinson Cavani')?.total_goals || 165;
+  const ligue1 = PSG.palmares.find(p => p.competition === 'Ligue 1')?.titres || 11;
+
+  const targets = [ligue1, Math.round(totalDep), cavaniGoals];
+  document.querySelectorAll('[data-target]').forEach((el, i) => {
+    el.dataset.target = targets[i];
+  });
+
+  const counters = document.querySelectorAll('[data-target]');
+  counters.forEach(counter => {
+    const target = parseInt(counter.dataset.target);
+    const duration = 1800;
+    const start = performance.now();
+    const easeOut = t => 1 - Math.pow(1 - t, 3);
+    function step(now) {
+      const t = Math.min((now - start) / duration, 1);
+      counter.textContent = Math.round(easeOut(t) * target).toLocaleString('fr');
+      if (t < 1) requestAnimationFrame(step);
+    }
+    setTimeout(() => requestAnimationFrame(step), 400);
+  });
+}
+
+// ═══════════════════════════════════════════════
+// PALMARÈS
+// ═══════════════════════════════════════════════
+function renderPalmares() {
+  const icons = { 'Ligue 1': '🏆', 'Coupe de France': '🥇', 'Coupe de la Ligue': '🏅', 'Champions League': '⭐' };
+  const grid = document.getElementById('palmaresGrid');
+  grid.innerHTML = PSG.palmares.map(p => `
+    <div class="stat-card">
+      <div style="font-size:2.5rem; margin-bottom:0.5rem">${icons[p.competition] || '🏆'}</div>
+      <div class="stat-card-val">${p.titres}</div>
+      <div class="stat-card-label">${p.competition}</div>
+    </div>
+  `).join('');
+}
+
+// ═══════════════════════════════════════════════
+// TOP SCORERS TABLE
+// ═══════════════════════════════════════════════
+function renderScorersTable() {
+  const tbody = document.querySelector('#scorersTable tbody');
+  tbody.innerHTML = PSG.topScorers.map((p, i) => `
+    <tr>
+      <td class="rank">${i + 1}</td>
+      <td class="name">${p.name}</td>
+      <td class="goals">${p.total_goals}</td>
+      <td style="color: var(--text-muted)">${p.total_assists}</td>
+      <td style="color: var(--text-muted); font-family: var(--font-mono); font-size:0.8rem">${p.total_xG}</td>
+    </tr>
+  `).join('');
+}
+
+// ═══════════════════════════════════════════════
+// XG CHART
+// ═══════════════════════════════════════════════
+function renderXGChart() {
+  const top5 = PSG.topScorers.slice(0, 7);
+  new Chart(document.getElementById('xgChart'), {
+    type: 'bar',
+    data: {
+      labels: top5.map(p => p.name.split(' ').pop()),
+      datasets: [
+        { label: 'Buts réels', data: top5.map(p => p.total_goals), backgroundColor: '#004170cc', borderRadius: 6 },
+        { label: 'xG',         data: top5.map(p => p.total_xG),   backgroundColor: '#C7A84B55', borderRadius: 6, borderColor: '#C7A84B', borderWidth: 1 },
+      ]
+    },
+    options: chartOpts('Buts vs Expected Goals (top 7)')
+  });
+}
+
+// ═══════════════════════════════════════════════
+// MERCATO CHARTS
+// ═══════════════════════════════════════════════
+function renderMercatoCharts() {
+  const labels = PSG.mercato.map(m => m.season);
+
+  new Chart(document.getElementById('mercatoChart'), {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [
+        { label: 'Dépenses', data: PSG.mercato.map(m => m.depenses), backgroundColor: '#DA291Caa', borderRadius: 4 },
+        { label: 'Recettes', data: PSG.mercato.map(m => m.recettes), backgroundColor: '#004170cc', borderRadius: 4 },
+      ]
+    },
+    options: { ...chartOpts(), plugins: { legend: { display: true, labels: { color: '#8B949E', font: { size: 11 } } } } }
+  });
+
+  const bilans = PSG.mercato.map(m => m.bilan);
+  new Chart(document.getElementById('bilanChart'), {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [{
+        label: 'Bilan net',
+        data: bilans,
+        backgroundColor: bilans.map(b => b >= 0 ? '#5de8a055' : '#DA291C55'),
+        borderColor:      bilans.map(b => b >= 0 ? '#5de8a0'   : '#DA291C'),
+        borderWidth: 1,
+        borderRadius: 4,
+      }]
+    },
+    options: chartOpts()
+  });
+}
+
+// ═══════════════════════════════════════════════
+// TOP TRANSFERS
+// ═══════════════════════════════════════════════
+function renderTopTransfers() {
+  const topT = [
+    { name: 'Neymar Jr',    fee: 222, from: 'FC Barcelone',   season: '2017-18', dir: 'IN' },
+    { name: 'Kylian Mbappé',fee: 180, from: 'AS Monaco',      season: '2021-22', dir: 'IN' },
+    { name: 'K. Mbappé (prêt)',fee:145,from: 'AS Monaco',     season: '2017-18', dir: 'IN' },
+    { name: 'João Neves',   fee: 70,  from: 'Benfica',        season: '2024-25', dir: 'IN' },
+    { name: 'Gonçalo Ramos',fee: 65,  from: 'Benfica',        season: '2024-25', dir: 'IN' },
+  ];
+  const container = document.getElementById('topTransfers');
+  container.innerHTML = topT.map((t, i) => {
+    const pct = (t.fee / 222) * 100;
+    return `
+      <div style="margin-bottom:1rem">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.35rem">
+          <div>
+            <span style="font-weight:600; font-size:0.875rem">${t.name}</span>
+            <span style="color:var(--text-muted); font-size:0.75rem; margin-left:0.5rem">${t.from} · ${t.season}</span>
+          </div>
+          <div style="font-family:var(--font-display); font-size:1.2rem; color:var(--psg-or)">€${t.fee}M</div>
+        </div>
+        <div style="height:4px; background:rgba(0,65,112,0.3); border-radius:2px; overflow:hidden">
+          <div style="height:100%; width:${pct}%; background:linear-gradient(to right, var(--psg-bleu), var(--psg-or)); border-radius:2px; transition: width 1s ease ${i*0.1}s"></div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+// ═══════════════════════════════════════════════
+// GOALS CHART
+// ═══════════════════════════════════════════════
+function renderGoalsChart() {
+  const labels = PSG.seasonsGoals.map(s => s.label);
+  const goals  = PSG.seasonsGoals.map(s => s.goals_scored);
+  new Chart(document.getElementById('goalsChart'), {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [{
+        label: 'Buts marqués',
+        data: goals,
+        fill: true,
+        backgroundColor: 'rgba(0,65,112,0.2)',
+        borderColor: '#004170',
+        pointBackgroundColor: goals.map(g => g >= 100 ? '#C7A84B' : '#004170'),
+        pointRadius: 5,
+        tension: 0.4,
+      }]
+    },
+    options: chartOpts()
+  });
+}
+
+// ═══════════════════════════════════════════════
+// TIMELINE
+// ═══════════════════════════════════════════════
+function renderTimeline() {
+  const ucl_class = {
+    'Finale LDC':   'ucl-finale',
+    'Demi-finales': 'ucl-demi',
+    'Quarts':       'ucl-quarts',
+    'Huitièmes':    'ucl-huitiemes',
+  };
+  const tl = document.getElementById('timeline');
+  // Show last 7 seasons
+  const recent = PSG.seasonsGoals.slice(-7).reverse();
+  tl.innerHTML = recent.map(s => {
+    const cls = ucl_class[s.ucl_stage] || 'ucl-huitiemes';
+    return `
+      <div class="timeline-item">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start">
+          <div>
+            <div class="timeline-season">${s.label}</div>
+            <div class="timeline-ucl">LDC — ${s.ucl_stage}</div>
+          </div>
+          <div style="text-align:right">
+            <div style="font-family:var(--font-display); font-size:1.8rem; color: var(--psg-or); line-height:1">${s.goals_scored}</div>
+            <div style="font-family:var(--font-mono); font-size:0.65rem; color:var(--text-muted)">BUTS L1</div>
+          </div>
+        </div>
+        <div><span class="ucl-badge ${cls}">${s.ucl_stage}</span></div>
+      </div>
+    `;
+  }).join('');
+}
+
+// ═══════════════════════════════════════════════
+// SQUAD TABLE
+// ═══════════════════════════════════════════════
+function renderSquadTable(posFilter) {
+  const tbody = document.querySelector('#squadTable tbody');
+  const data = posFilter === 'ALL'
+    ? PSG.currentSquad
+    : PSG.currentSquad.filter(p => p.position === posFilter);
+
+  tbody.innerHTML = data.map(p => {
+    const age = 2025 - p.birth_year;
+    return `
+      <tr>
+        <td class="name">${p.name}</td>
+        <td><span class="badge-pos ${p.position}">${p.position}</span></td>
+        <td style="color:var(--text-muted); font-size:0.8rem">${p.nationality}</td>
+        <td style="font-family:var(--font-mono); font-size:0.8rem">${age}</td>
+        <td style="font-family:var(--font-mono)">${p.appearances}</td>
+        <td class="goals">${p.goals}</td>
+        <td style="color:var(--psg-or)">${p.assists}</td>
+        <td style="color:var(--text-muted); font-family:var(--font-mono); font-size:0.8rem">${p.xG}</td>
+        <td style="color:var(--text-muted); font-family:var(--font-mono); font-size:0.8rem">${p.minutes.toLocaleString('fr')}</td>
+      </tr>
+    `;
+  }).join('');
+}
+
+// ═══════════════════════════════════════════════
+// NAT & POS CHARTS
+// ═══════════════════════════════════════════════
+function renderNatChart() {
+  const top8 = PSG.nationalities.slice(0, 8);
+  new Chart(document.getElementById('natChart'), {
+    type: 'bar',
+    data: {
+      labels: top8.map(n => n.nationality),
+      datasets: [{ label: 'Joueurs', data: top8.map(n => n.count),
+        backgroundColor: '#004170bb', borderRadius: 6, borderColor: '#004170', borderWidth: 1 }]
+    },
+    options: chartOpts()
+  });
+}
+
+function renderPosChart() {
+  const pos = {};
+  PSG.currentSquad.forEach(p => { pos[p.position] = (pos[p.position] || 0) + 1; });
+  new Chart(document.getElementById('posChart'), {
+    type: 'doughnut',
+    data: {
+      labels: Object.keys(pos),
+      datasets: [{
+        data: Object.values(pos),
+        backgroundColor: ['#DA291Ccc','#004170cc','#C7A84Bcc','#7B61FFcc'],
+        borderColor: '#0F1621', borderWidth: 3,
+      }]
+    },
+    options: {
+      plugins: {
+        legend: { position: 'bottom', labels: { color: '#8B949E', padding: 15, font: { size: 11, family: 'JetBrains Mono' } } }
+      },
+      cutout: '65%',
+    }
+  });
+}
+
+// ═══════════════════════════════════════════════
+// FILTERS
+// ═══════════════════════════════════════════════
+function setupFilters() {
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderSquadTable(btn.dataset.pos);
+    });
+  });
+}
+
+// ═══════════════════════════════════════════════
+// SCROLL ANIMATIONS
+// ═══════════════════════════════════════════════
+function setupIntersectionObserver() {
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) e.target.classList.add('visible');
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.stagger').forEach(el => obs.observe(el));
+}
+
+// ═══════════════════════════════════════════════
+// CHART DEFAULTS
+// ═══════════════════════════════════════════════
+function chartOpts(title = '') {
+  return {
+    responsive: true,
+    maintainAspectRatio: true,
+    plugins: {
+      legend: { display: false },
+      title: title ? { display: false } : { display: false },
+      tooltip: {
+        backgroundColor: '#0F1621',
+        borderColor: 'rgba(0,65,112,0.5)',
+        borderWidth: 1,
+        titleColor: '#C7A84B',
+        bodyColor: '#E8EEF5',
+        padding: 10,
+        cornerRadius: 8,
+      }
+    },
+    scales: {
+      x: {
+        ticks: { color: '#7A8BA0', font: { size: 10, family: 'JetBrains Mono' }, maxRotation: 45 },
+        grid:  { color: 'rgba(0,65,112,0.1)' },
+        border: { color: 'transparent' }
+      },
+      y: {
+        ticks: { color: '#7A8BA0', font: { size: 10, family: 'JetBrains Mono' } },
+        grid:  { color: 'rgba(0,65,112,0.15)' },
+        border: { color: 'transparent' }
+      }
+    }
+  };
+}
+
+// ─── START ────────────────────────────────────
+loadData();
+</script>
+</body>
+</html>
