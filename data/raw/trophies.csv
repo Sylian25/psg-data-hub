@@ -1,52 +1,55 @@
 trophy_id,season_id,competition,won
 1,1,Ligue 1,0
-2,2,Ligue 1,1
-3,3,Ligue 1,1
-4,4,Ligue 1,1
-5,5,Ligue 1,1
-6,6,Ligue 1,1
-7,7,Ligue 1,1
-8,8,Ligue 1,1
-9,9,Ligue 1,1
-10,10,Ligue 1,0
-11,11,Ligue 1,1
-12,12,Ligue 1,1
-13,13,Ligue 1,0
-14,14,Ligue 1,1
-15,1,Coupe de France,1
-16,2,Coupe de France,1
-17,3,Coupe de France,1
-18,4,Coupe de France,1
-19,5,Coupe de France,1
-20,6,Coupe de France,1
-21,7,Coupe de France,1
-22,8,Coupe de France,1
-23,9,Coupe de France,1
-24,10,Coupe de France,0
-25,11,Coupe de France,1
-26,12,Coupe de France,1
-27,13,Coupe de France,1
-28,14,Coupe de France,1
-29,1,Coupe de la Ligue,1
-30,2,Coupe de la Ligue,1
-31,3,Coupe de la Ligue,1
-32,4,Coupe de la Ligue,1
-33,5,Coupe de la Ligue,1
-34,6,Coupe de la Ligue,1
-35,7,Coupe de la Ligue,1
-36,8,Coupe de la Ligue,1
-37,9,Coupe de la Ligue,1
-38,1,Champions League,0
-39,2,Champions League,0
-40,3,Champions League,0
-41,4,Champions League,0
-42,5,Champions League,0
-43,6,Champions League,0
-44,7,Champions League,0
-45,8,Champions League,0
-46,9,Champions League,1
-47,10,Champions League,0
-48,11,Champions League,0
-49,12,Champions League,0
-50,13,Champions League,0
-51,14,Champions League,0
+2,1,Coupe de France,1
+3,1,Coupe de la Ligue,1
+4,1,Champions League,0
+5,2,Ligue 1,1
+6,2,Coupe de France,1
+7,2,Coupe de la Ligue,1
+8,2,Champions League,0
+9,3,Ligue 1,1
+10,3,Coupe de France,1
+11,3,Coupe de la Ligue,1
+12,3,Champions League,0
+13,4,Ligue 1,1
+14,4,Coupe de France,1
+15,4,Coupe de la Ligue,1
+16,4,Champions League,0
+17,5,Ligue 1,1
+18,5,Coupe de France,1
+19,5,Coupe de la Ligue,1
+20,5,Champions League,0
+21,6,Ligue 1,1
+22,6,Coupe de France,1
+23,6,Coupe de la Ligue,1
+24,6,Champions League,0
+25,7,Ligue 1,1
+26,7,Coupe de France,1
+27,7,Coupe de la Ligue,1
+28,7,Champions League,0
+29,8,Ligue 1,1
+30,8,Coupe de France,1
+31,8,Coupe de la Ligue,1
+32,8,Champions League,0
+33,9,Ligue 1,1
+34,9,Coupe de France,1
+35,9,Coupe de la Ligue,1
+36,9,Champions League,0
+37,10,Ligue 1,0
+38,10,Coupe de France,0
+39,10,Champions League,0
+40,11,Ligue 1,1
+41,11,Coupe de France,1
+42,11,Champions League,0
+43,12,Ligue 1,1
+44,12,Coupe de France,1
+45,12,Champions League,0
+46,13,Ligue 1,0
+47,13,Coupe de France,1
+48,13,Champions League,0
+49,14,Ligue 1,1
+50,14,Coupe de France,1
+51,14,Champions League,1
+52,15,Ligue 1,1
+53,15,Coupe de France,1
+54,15,Champions League,0
