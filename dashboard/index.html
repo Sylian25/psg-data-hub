@@ -2,13 +2,15 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta property="og:title" content="PSG Data Hub — Analyse & Histoire du Club" />
-<meta property="og:description" content="14 saisons, 30 joueurs, 32 transferts. L'histoire du PSG racontée par la donnée." />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PSG DATA HUB — Analyse & Histoire du Club</title>
+<meta property="og:title" content="PSG DATA HUB — Analyse & Histoire du Club" />
+<meta property="og:description" content="15 saisons, 35 joueurs, 256 buts pour Mbappé. L'histoire du PSG racontée par la donnée." />
 <meta property="og:url" content="https://psg-data-hub.vercel.app" />
 <meta property="og:type" content="website" />
 <meta property="og:image" content="https://psg-data-hub.vercel.app/assets/top_scorers.png" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PSG DATA HUB — Analyse & Histoire du Club</title>
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://psg-data-hub.vercel.app/assets/top_scorers.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;600&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -208,11 +210,11 @@ footer { position: relative; z-index: 1; padding: 4rem 2rem 2rem; border-top: 1p
     <span class="ht2">DATA HUB</span>
     <span class="ht3">Saint-Germain Football Club</span>
   </h1>
-  <p class="hero-sub">14 saisons. 30 joueurs. 32 transferts. L'histoire du PSG racontée par la donnée.</p>
+  <p class="hero-sub">15 saisons. 35 joueurs. 36 transferts. L'histoire du PSG racontée par la donnée.</p>
   <div class="kpi-bar lg" id="kpiBar">
     <div class="kpi"><div class="kv" id="k1">0</div><div class="kl">Titres L1</div></div>
     <div class="kpi"><div class="kv" id="k2">0</div><div class="kl">M€ Mercato</div></div>
-    <div class="kpi"><div class="kv" id="k3">0</div><div class="kl">Record Cavani</div></div>
+    <div class="kpi"><div class="kv" id="k3">0</div><div class="kl">Record Mbappé</div></div>
     <div class="kpi"><div class="kv" id="k4">0</div><div class="kl">Joueurs</div></div>
   </div>
   <div class="hero-cta">
@@ -275,7 +277,7 @@ footer { position: relative; z-index: 1; padding: 4rem 2rem 2rem; border-top: 1p
 <section id="saisons">
   <div class="ctr">
     <div class="ey">// 04 <span class="s">—</span> Histoire</div>
-    <h2 class="st">14 saisons,<br>une <em>odyssée</em></h2>
+    <h2 class="st">15 saisons,<br>une <em>odyssée</em></h2>
     <div class="g2" style="align-items:start">
       <div class="card lg reveal"><div class="ct">Buts marqués en Ligue 1</div><canvas id="goalsChart" height="260"></canvas></div>
       <div class="timeline" id="timeline"></div>
@@ -340,9 +342,9 @@ function init() {
 
 function counters() {
   const dep = Math.round(D.mercato.reduce((s,d)=>s+d.depenses,0));
-  const cav = D.topScorers.find(p=>p.name==='Edinson Cavani')?.total_goals||165;
+  const cav = D.topScorers.find(p=>p.name==='Kylian Mbappé')?.total_goals||256;
   const l1  = D.palmares.find(p=>p.competition==='Ligue 1')?.titres||11;
-  [{id:'k1',t:l1},{id:'k2',t:dep},{id:'k3',t:cav},{id:'k4',t:30}].forEach(({id,t})=>{
+  [{id:'k1',t:l1},{id:'k2',t:dep},{id:'k3',t:cav},{id:'k4',t:35}].forEach(({id,t})=>{
     const el=document.getElementById(id), dur=2000, s=performance.now(), ease=x=>1-Math.pow(1-x,3);
     function step(n){const p=Math.min((n-s)/dur,1);el.textContent=Math.round(ease(p)*t).toLocaleString('fr');if(p<1)requestAnimationFrame(step);}
     setTimeout(()=>requestAnimationFrame(step),500);
