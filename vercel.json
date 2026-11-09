@@ -1,1 +1,15 @@
-{"outputDirectory": "dashboard"} 
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "dashboard/**",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/dashboard/$1"
+    }
+  ]
+}

@@ -1,55 +1,73 @@
-trophy_id,season_id,competition,won
-1,1,Ligue 1,0
-2,1,Coupe de France,1
-3,1,Coupe de la Ligue,1
-4,1,Champions League,0
-5,2,Ligue 1,1
-6,2,Coupe de France,1
-7,2,Coupe de la Ligue,1
-8,2,Champions League,0
-9,3,Ligue 1,1
-10,3,Coupe de France,1
-11,3,Coupe de la Ligue,1
-12,3,Champions League,0
-13,4,Ligue 1,1
-14,4,Coupe de France,1
-15,4,Coupe de la Ligue,1
-16,4,Champions League,0
-17,5,Ligue 1,1
-18,5,Coupe de France,1
-19,5,Coupe de la Ligue,1
-20,5,Champions League,0
-21,6,Ligue 1,1
-22,6,Coupe de France,1
-23,6,Coupe de la Ligue,1
-24,6,Champions League,0
-25,7,Ligue 1,1
-26,7,Coupe de France,1
-27,7,Coupe de la Ligue,1
-28,7,Champions League,0
-29,8,Ligue 1,1
-30,8,Coupe de France,1
-31,8,Coupe de la Ligue,1
-32,8,Champions League,0
-33,9,Ligue 1,1
-34,9,Coupe de France,1
-35,9,Coupe de la Ligue,1
-36,9,Champions League,0
-37,10,Ligue 1,0
-38,10,Coupe de France,0
-39,10,Champions League,0
-40,11,Ligue 1,1
-41,11,Coupe de France,1
-42,11,Champions League,0
-43,12,Ligue 1,1
-44,12,Coupe de France,1
-45,12,Champions League,0
-46,13,Ligue 1,0
-47,13,Coupe de France,1
-48,13,Champions League,0
-49,14,Ligue 1,1
-50,14,Coupe de France,1
-51,14,Champions League,1
-52,15,Ligue 1,1
-53,15,Coupe de France,1
-54,15,Champions League,0
+trophy_id,season_id,competition,won,data_quality
+1,1,Ligue 1,0,verifie
+2,2,Ligue 1,1,verifie
+3,3,Ligue 1,1,verifie
+4,4,Ligue 1,1,verifie
+5,5,Ligue 1,1,verifie
+6,6,Ligue 1,0,verifie
+7,7,Ligue 1,1,verifie
+8,8,Ligue 1,1,verifie
+9,9,Ligue 1,1,verifie
+10,10,Ligue 1,0,verifie
+11,11,Ligue 1,1,verifie
+12,12,Ligue 1,1,verifie
+13,13,Ligue 1,1,verifie
+14,14,Ligue 1,1,verifie
+15,15,Ligue 1,1,verifie
+16,1,Coupe de France,0,verifie
+17,2,Coupe de France,0,verifie
+18,3,Coupe de France,0,verifie
+19,4,Coupe de France,1,verifie
+20,5,Coupe de France,1,verifie
+21,6,Coupe de France,1,verifie
+22,7,Coupe de France,1,verifie
+23,8,Coupe de France,0,verifie
+24,9,Coupe de France,1,verifie
+25,10,Coupe de France,1,verifie
+26,11,Coupe de France,0,verifie
+27,12,Coupe de France,0,verifie
+28,13,Coupe de France,1,verifie
+29,14,Coupe de France,1,verifie
+30,15,Coupe de France,0,verifie
+31,1,Coupe de la Ligue,0,verifie
+32,2,Coupe de la Ligue,0,verifie
+33,3,Coupe de la Ligue,1,verifie
+34,4,Coupe de la Ligue,1,verifie
+35,5,Coupe de la Ligue,1,verifie
+36,6,Coupe de la Ligue,1,verifie
+37,7,Coupe de la Ligue,1,verifie
+38,8,Coupe de la Ligue,0,verifie
+39,9,Coupe de la Ligue,1,verifie
+40,1,Ligue des champions,0,verifie
+41,2,Ligue des champions,0,verifie
+42,3,Ligue des champions,0,verifie
+43,4,Ligue des champions,0,verifie
+44,5,Ligue des champions,0,verifie
+45,6,Ligue des champions,0,verifie
+46,7,Ligue des champions,0,verifie
+47,8,Ligue des champions,0,verifie
+48,9,Ligue des champions,0,verifie
+49,10,Ligue des champions,0,verifie
+50,11,Ligue des champions,0,verifie
+51,12,Ligue des champions,0,verifie
+52,13,Ligue des champions,0,verifie
+53,14,Ligue des champions,1,verifie
+54,15,Ligue des champions,1,verifie
+55,3,Trophée des Champions,1,verifie
+56,4,Trophée des Champions,1,verifie
+57,5,Trophée des Champions,1,verifie
+58,6,Trophée des Champions,1,verifie
+59,7,Trophée des Champions,1,verifie
+60,8,Trophée des Champions,1,verifie
+61,9,Trophée des Champions,1,verifie
+62,10,Trophée des Champions,1,verifie
+63,11,Trophée des Champions,0,verifie
+64,12,Trophée des Champions,1,verifie
+65,13,Trophée des Champions,1,verifie
+66,14,Trophée des Champions,1,verifie
+67,15,Trophée des Champions,1,verifie
+68,16,Trophée des Champions,0,verifie
+69,14,Supercoupe de l'UEFA,0,verifie
+70,15,Supercoupe de l'UEFA,1,verifie
+71,16,Supercoupe de l'UEFA,1,verifie
+72,15,Coupe intercontinentale,1,verifie

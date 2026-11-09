@@ -1,37 +1,52 @@
-transfer_id,player_id,season_id,direction,from_club,to_club,fee_m_eur,transfer_type
-1,1,1,IN,AC Milan,PSG,12.0,Achat
-2,4,1,IN,LA Galaxy,PSG,0.0,Libre
-3,3,2,IN,Chelsea,PSG,42.0,Achat
-4,9,2,IN,Chelsea,PSG,49.5,Achat
-5,2,3,IN,Napoli,PSG,64.5,Achat
-6,7,3,IN,Pescara,PSG,9.0,Achat
-7,8,4,IN,Roma,PSG,31.4,Achat
-8,14,6,IN,Juventus,PSG,63.0,Achat
-9,11,7,IN,FC Barcelone,PSG,222.0,Achat
-10,12,7,IN,AS Monaco,PSG,145.0,Prêt
-11,17,9,IN,Real Madrid,PSG,15.0,Achat
-12,18,10,IN,Inter Milan,PSG,60.0,Achat
-13,13,11,IN,FC Barcelone,PSG,0.0,Libre
-14,12,11,IN,AS Monaco,PSG,180.0,Achat
-15,21,13,IN,FC Barcelone,PSG,50.0,Achat
-16,22,13,IN,Olympique Lyonnais,PSG,45.0,Achat
-17,23,13,IN,FC Porto,PSG,41.5,Achat
-18,28,14,IN,Benfica,PSG,65.0,Achat
-19,29,14,IN,Benfica,PSG,70.0,Achat
-20,30,14,IN,Eintracht Frankfurt,PSG,40.0,Achat
-21,31,14,IN,Stade Rennais,PSG,50.0,Achat
-22,32,14,IN,SSC Napoli,PSG,70.0,Achat
-23,33,15,IN,Eintracht Frankfurt,PSG,63.0,Achat
-24,34,15,IN,LOSC Lille,PSG,25.0,Achat
-25,35,14,IN,FK Krasnodar,PSG,0.0,Libre
-26,1,6,OUT,PSG,Manchester United,0.0,Libre
-27,9,5,OUT,PSG,FC Barcelone,32.0,Achat
-28,2,12,OUT,PSG,Atlético Madrid,0.0,Libre
-29,3,11,OUT,PSG,Chelsea,0.0,Libre
-30,14,12,OUT,PSG,Juventus,0.0,Libre
-31,11,13,OUT,PSG,Al-Hilal,90.0,Achat
-32,12,13,OUT,PSG,Real Madrid,0.0,Libre
-33,13,13,OUT,PSG,Inter Miami,0.0,Libre
-34,7,13,OUT,PSG,Al-Arabi SC,0.0,Libre
-35,25,15,OUT,PSG,Manchester City,30.0,Achat
-36,19,15,OUT,PSG,Libre,0.0,Libre
+transfer_id,player_id,season_id,direction,from_club,to_club,fee_m_eur,transfer_type,data_quality
+1,1,2,IN,AC Milan,PSG,20.0,Achat,a_recouper
+2,4,2,IN,LA Galaxy,PSG,0.0,Libre,a_recouper
+3,3,2,IN,AC Milan,PSG,42.0,Achat,a_recouper
+4,7,2,IN,Pescara,PSG,12.0,Achat,a_recouper
+5,2,3,IN,Napoli,PSG,64.5,Achat,a_recouper
+6,8,3,IN,AS Roma,PSG,31.4,Achat,a_recouper
+7,9,4,IN,Chelsea,PSG,49.5,Achat,a_recouper
+8,14,5,IN,Real Madrid,PSG,63.0,Achat,a_recouper
+9,11,7,IN,FC Barcelone,PSG,222.0,Achat,a_recouper
+10,12,7,IN,AS Monaco,PSG,0.0,Prêt,a_recouper
+11,12,8,IN,AS Monaco,PSG,180.0,Achat,a_recouper
+12,17,9,IN,Real Madrid,PSG,15.0,Achat,a_recouper
+13,13,11,IN,FC Barcelone,PSG,0.0,Libre,a_recouper
+14,25,11,IN,AC Milan,PSG,0.0,Libre,a_recouper
+15,18,11,IN,Inter Milan,PSG,68.0,Achat,a_recouper
+16,23,12,IN,FC Porto,PSG,41.5,Achat,a_recouper
+17,21,13,IN,FC Barcelone,PSG,50.0,Achat,a_recouper
+18,22,13,IN,Olympique Lyonnais,PSG,45.0,Achat,a_recouper
+19,28,13,IN,Benfica,PSG,65.0,Achat,a_recouper
+20,29,14,IN,Benfica,PSG,59.8,Achat,a_recouper
+21,30,14,IN,Eintracht Francfort,PSG,40.0,Achat,a_recouper
+22,31,14,IN,Stade Rennais,PSG,50.0,Achat,a_recouper
+23,32,14,IN,SSC Napoli,PSG,70.0,Achat,a_recouper
+24,34,15,IN,LOSC Lille,PSG,40.0,Achat,verifie
+25,33,15,IN,AFC Bournemouth,PSG,63.0,Achat,verifie
+26,35,15,IN,FK Krasnodar,PSG,20.0,Achat,verifie
+27,40,15,IN,FC Barcelone,PSG,8.2,Achat,verifie
+28,36,16,IN,AS Monaco,PSG,50.0,Achat,verifie
+29,37,16,IN,Aston Villa,PSG,7.0,Achat,verifie
+30,38,16,IN,FC Barcelone,PSG,48.5,Achat,verifie
+31,39,16,IN,Ajax,PSG,45.0,Achat,verifie
+32,1,6,OUT,PSG,Manchester United,0.0,Libre,a_recouper
+33,9,6,OUT,PSG,Chelsea,34.0,Achat,a_recouper
+34,4,2,OUT,PSG,Retraite,0.0,Libre,a_recouper
+35,2,10,OUT,PSG,Manchester United,0.0,Libre,a_recouper
+36,3,10,OUT,PSG,Chelsea,0.0,Libre,a_recouper
+37,14,12,OUT,PSG,Juventus,0.0,Libre,a_recouper
+38,11,13,OUT,PSG,Al-Hilal,90.0,Achat,a_recouper
+39,13,13,OUT,PSG,Inter Miami,0.0,Libre,a_recouper
+40,7,13,OUT,PSG,Al-Arabi SC,45.0,Achat,a_recouper
+41,12,14,OUT,PSG,Real Madrid,0.0,Libre,a_recouper
+42,25,15,OUT,PSG,Manchester City,30.0,Achat,verifie
+43,43,15,OUT,PSG,Fenerbahçe,7.0,Achat,verifie
+44,44,15,OUT,PSG,Fenerbahçe,7.5,Achat,verifie
+45,45,15,OUT,PSG,Sunderland,11.0,Achat,verifie
+46,46,15,OUT,PSG,Real Sociedad,8.0,Achat,verifie
+47,19,15,OUT,PSG,Qatar SC,0.0,Achat,verifie
+48,28,16,OUT,PSG,AC Milan,74.0,Achat,verifie
+49,41,16,OUT,PSG,Atlético Madrid,35.0,Achat,verifie
+50,42,16,OUT,PSG,Juventus,38.0,Achat,verifie
+51,22,16,OUT,PSG,Liverpool,125.0,Achat,verifie

@@ -1,461 +1,502 @@
 {
-  "mercato": [
-    {
-      "season": "2011-12",
-      "depenses": 12.0,
-      "recettes": 0.0,
-      "bilan": -12.0
-    },
-    {
-      "season": "2012-13",
-      "depenses": 91.5,
-      "recettes": 0.0,
-      "bilan": -91.5
-    },
-    {
-      "season": "2013-14",
-      "depenses": 73.5,
-      "recettes": 0.0,
-      "bilan": -73.5
-    },
-    {
-      "season": "2014-15",
-      "depenses": 31.4,
-      "recettes": 0.0,
-      "bilan": -31.4
-    },
-    {
-      "season": "2015-16",
-      "depenses": 0.0,
-      "recettes": 32.0,
-      "bilan": 32.0
-    },
-    {
-      "season": "2016-17",
-      "depenses": 63.0,
-      "recettes": 0.0,
-      "bilan": -63.0
-    },
-    {
-      "season": "2017-18",
-      "depenses": 367.0,
-      "recettes": 0.0,
-      "bilan": -367.0
-    },
-    {
-      "season": "2018-19",
-      "depenses": 0.0,
-      "recettes": 0.0,
-      "bilan": 0.0
-    },
-    {
-      "season": "2019-20",
-      "depenses": 15.0,
-      "recettes": 0.0,
-      "bilan": -15.0
-    },
-    {
-      "season": "2020-21",
-      "depenses": 60.0,
-      "recettes": 0.0,
-      "bilan": -60.0
-    },
-    {
-      "season": "2021-22",
-      "depenses": 180.0,
-      "recettes": 0.0,
-      "bilan": -180.0
-    },
-    {
-      "season": "2022-23",
-      "depenses": 0.0,
-      "recettes": 0.0,
-      "bilan": 0.0
-    },
-    {
-      "season": "2023-24",
-      "depenses": 136.5,
-      "recettes": 90.0,
-      "bilan": -46.5
-    },
-    {
-      "season": "2024-25",
-      "depenses": 295.0,
-      "recettes": 0.0,
-      "bilan": -295.0
-    },
-    {
-      "season": "2025-26",
-      "depenses": 88.0,
-      "recettes": 30.0,
-      "bilan": -58.0
-    }
-  ],
-  "topScorers": [
-    {
-      "name": "Kylian Mbappé",
-      "total_goals": 256,
-      "total_assists": 92,
-      "total_xG": 246.6
-    },
-    {
-      "name": "Edinson Cavani",
-      "total_goals": 180,
-      "total_assists": 42,
-      "total_xG": 172.9
-    },
-    {
-      "name": "Zlatan Ibrahimović",
-      "total_goals": 156,
-      "total_assists": 57,
-      "total_xG": 145.2
-    },
-    {
-      "name": "Neymar Jr",
-      "total_goals": 118,
-      "total_assists": 72,
-      "total_xG": 122.8
-    },
-    {
-      "name": "Ángel Di María",
-      "total_goals": 75,
-      "total_assists": 116,
-      "total_xG": 67.5
-    },
-    {
-      "name": "Ousmane Dembélé",
-      "total_goals": 53,
-      "total_assists": 31,
-      "total_xG": 50.3
-    },
-    {
-      "name": "Marquinhos",
-      "total_goals": 48,
-      "total_assists": 24,
-      "total_xG": 38.4
-    },
-    {
-      "name": "Achraf Hakimi",
-      "total_goals": 40,
-      "total_assists": 58,
-      "total_xG": 37.7
-    },
-    {
-      "name": "Bradley Barcola",
-      "total_goals": 39,
-      "total_assists": 20,
-      "total_xG": 36.2
-    },
-    {
-      "name": "Lionel Messi",
-      "total_goals": 32,
-      "total_assists": 35,
-      "total_xG": 32.6
-    }
-  ],
-  "nationalities": [
-    {
-      "nationality": "France",
-      "count": 8
-    },
-    {
-      "nationality": "Brésil",
-      "count": 5
-    },
-    {
-      "nationality": "Portugal",
-      "count": 4
-    },
-    {
-      "nationality": "Argentine",
-      "count": 4
-    },
-    {
-      "nationality": "Italie",
-      "count": 2
-    },
-    {
-      "nationality": "Équateur",
-      "count": 1
-    },
-    {
-      "nationality": "Uruguay",
-      "count": 1
-    },
-    {
-      "nationality": "Ukraine",
-      "count": 1
-    },
-    {
-      "nationality": "Sénégal",
-      "count": 1
-    },
-    {
-      "nationality": "Suède",
-      "count": 1
-    },
-    {
-      "nationality": "Russie",
-      "count": 1
-    },
-    {
-      "nationality": "Maroc",
-      "count": 1
-    }
-  ],
-  "currentSquad": [
-    {
-      "name": "Bradley Barcola",
-      "position": "ATT",
-      "nationality": "France",
-      "birth_year": 2002,
-      "goals": 10,
-      "assists": 5,
-      "appearances": 22,
-      "xG": 9.3,
-      "minutes": 1628
-    },
-    {
-      "name": "Ousmane Dembélé",
-      "position": "ATT",
-      "nationality": "France",
-      "birth_year": 1997,
-      "goals": 8,
-      "assists": 4,
-      "appearances": 20,
-      "xG": 7.6,
-      "minutes": 1580
-    },
-    {
-      "name": "Vitinha",
-      "position": "MID",
-      "nationality": "Portugal",
-      "birth_year": 2000,
-      "goals": 5,
-      "assists": 7,
-      "appearances": 24,
-      "xG": 2.5,
-      "minutes": 1968
-    },
-    {
-      "name": "Gonçalo Ramos",
-      "position": "ATT",
-      "nationality": "Portugal",
-      "birth_year": 2001,
-      "goals": 5,
-      "assists": 3,
-      "appearances": 23,
-      "xG": 4.8,
-      "minutes": 1541
-    },
-    {
-      "name": "João Neves",
-      "position": "MID",
-      "nationality": "Portugal",
-      "birth_year": 2004,
-      "goals": 5,
-      "assists": 4,
-      "appearances": 24,
-      "xG": 4.4,
-      "minutes": 1896
-    },
-    {
-      "name": "Marquinhos",
-      "position": "DEF",
-      "nationality": "Brésil",
-      "birth_year": 1994,
-      "goals": 4,
-      "assists": 2,
-      "appearances": 40,
-      "xG": 3.2,
-      "minutes": 3120
-    },
-    {
-      "name": "Achraf Hakimi",
-      "position": "DEF",
-      "nationality": "Maroc",
-      "birth_year": 1998,
-      "goals": 4,
-      "assists": 6,
-      "appearances": 22,
-      "xG": 3.8,
-      "minutes": 1760
-    },
-    {
-      "name": "Warren Zaïre-Emery",
-      "position": "MID",
-      "nationality": "France",
-      "birth_year": 2006,
-      "goals": 4,
-      "assists": 4,
-      "appearances": 25,
-      "xG": 3.5,
-      "minutes": 1850
-    },
-    {
-      "name": "Désiré Doué",
-      "position": "ATT",
-      "nationality": "France",
-      "birth_year": 2005,
-      "goals": 4,
-      "assists": 3,
-      "appearances": 20,
-      "xG": 3.8,
-      "minutes": 1460
-    },
-    {
-      "name": "Khvicha Kvaratskhelia",
-      "position": "ATT",
-      "nationality": "Géorgie",
-      "birth_year": 2001,
-      "goals": 3,
-      "assists": 3,
-      "appearances": 18,
-      "xG": 2.8,
-      "minutes": 1278
-    },
-    {
-      "name": "Nuno Mendes",
-      "position": "DEF",
-      "nationality": "Portugal",
-      "birth_year": 2002,
-      "goals": 3,
-      "assists": 4,
-      "appearances": 20,
-      "xG": 1.8,
-      "minutes": 1580
-    },
-    {
-      "name": "Illia Zabarnyi",
-      "position": "DEF",
-      "nationality": "Ukraine",
-      "birth_year": 2002,
-      "goals": 1,
-      "assists": 1,
-      "appearances": 18,
-      "xG": 0.8,
-      "minutes": 1566
-    },
-    {
-      "name": "Lucas Chevalier",
-      "position": "GK",
-      "nationality": "France",
-      "birth_year": 2001,
-      "goals": 0,
-      "assists": 0,
-      "appearances": 17,
-      "xG": 0.0,
-      "minutes": 1530
-    }
-  ],
-  "palmares": [
-    {
-      "competition": "Coupe de France",
-      "titres": 14
-    },
-    {
-      "competition": "Ligue 1",
-      "titres": 12
-    },
-    {
-      "competition": "Coupe de la Ligue",
-      "titres": 9
-    },
-    {
-      "competition": "Champions League",
-      "titres": 1
-    }
-  ],
-  "seasonsGoals": [
-    {
-      "label": "2011-12",
-      "goals_scored": 68,
-      "ligue1_rank": 2,
-      "ucl_stage": "Huitièmes"
-    },
-    {
-      "label": "2012-13",
-      "goals_scored": 69,
-      "ligue1_rank": 1,
-      "ucl_stage": "Quarts"
-    },
-    {
-      "label": "2013-14",
-      "goals_scored": 84,
-      "ligue1_rank": 1,
-      "ucl_stage": "Quarts"
-    },
-    {
-      "label": "2014-15",
-      "goals_scored": 72,
-      "ligue1_rank": 1,
-      "ucl_stage": "Quarts"
-    },
-    {
-      "label": "2015-16",
-      "goals_scored": 75,
-      "ligue1_rank": 1,
-      "ucl_stage": "Quarts"
-    },
-    {
-      "label": "2016-17",
-      "goals_scored": 83,
-      "ligue1_rank": 1,
-      "ucl_stage": "Huitièmes"
-    },
-    {
-      "label": "2017-18",
-      "goals_scored": 108,
-      "ligue1_rank": 1,
-      "ucl_stage": "Huitièmes"
-    },
-    {
-      "label": "2018-19",
-      "goals_scored": 105,
-      "ligue1_rank": 1,
-      "ucl_stage": "Huitièmes"
-    },
-    {
-      "label": "2019-20",
-      "goals_scored": 75,
-      "ligue1_rank": 1,
-      "ucl_stage": "Finale LDC"
-    },
-    {
-      "label": "2020-21",
-      "goals_scored": 86,
-      "ligue1_rank": 2,
-      "ucl_stage": "Demi-finales"
-    },
-    {
-      "label": "2021-22",
-      "goals_scored": 90,
-      "ligue1_rank": 1,
-      "ucl_stage": "Huitièmes"
-    },
-    {
-      "label": "2022-23",
-      "goals_scored": 89,
-      "ligue1_rank": 1,
-      "ucl_stage": "Huitièmes"
-    },
-    {
-      "label": "2023-24",
-      "goals_scored": 78,
-      "ligue1_rank": 2,
-      "ucl_stage": "Demi-finales"
-    },
-    {
-      "label": "2024-25",
-      "goals_scored": 89,
-      "ligue1_rank": 1,
-      "ucl_stage": "Vainqueur LDC"
-    },
-    {
-      "label": "2025-26",
-      "goals_scored": 55,
-      "ligue1_rank": 1,
-      "ucl_stage": "En cours"
-    }
-  ]
+ "generatedAt": "2026-11-09",
+ "mercato": [
+  {
+   "season": "2011-12",
+   "depenses": 0.0,
+   "recettes": 0.0,
+   "bilan": 0.0
+  },
+  {
+   "season": "2012-13",
+   "depenses": 74.0,
+   "recettes": 0.0,
+   "bilan": -74.0
+  },
+  {
+   "season": "2013-14",
+   "depenses": 95.9,
+   "recettes": 0.0,
+   "bilan": -95.9
+  },
+  {
+   "season": "2014-15",
+   "depenses": 49.5,
+   "recettes": 0.0,
+   "bilan": -49.5
+  },
+  {
+   "season": "2015-16",
+   "depenses": 63.0,
+   "recettes": 0.0,
+   "bilan": -63.0
+  },
+  {
+   "season": "2016-17",
+   "depenses": 0.0,
+   "recettes": 34.0,
+   "bilan": 34.0
+  },
+  {
+   "season": "2017-18",
+   "depenses": 222.0,
+   "recettes": 0.0,
+   "bilan": -222.0
+  },
+  {
+   "season": "2018-19",
+   "depenses": 180.0,
+   "recettes": 0.0,
+   "bilan": -180.0
+  },
+  {
+   "season": "2019-20",
+   "depenses": 15.0,
+   "recettes": 0.0,
+   "bilan": -15.0
+  },
+  {
+   "season": "2020-21",
+   "depenses": 0.0,
+   "recettes": 0.0,
+   "bilan": 0.0
+  },
+  {
+   "season": "2021-22",
+   "depenses": 68.0,
+   "recettes": 0.0,
+   "bilan": -68.0
+  },
+  {
+   "season": "2022-23",
+   "depenses": 41.5,
+   "recettes": 0.0,
+   "bilan": -41.5
+  },
+  {
+   "season": "2023-24",
+   "depenses": 160.0,
+   "recettes": 135.0,
+   "bilan": -25.0
+  },
+  {
+   "season": "2024-25",
+   "depenses": 219.8,
+   "recettes": 0.0,
+   "bilan": -219.8
+  },
+  {
+   "season": "2025-26",
+   "depenses": 131.2,
+   "recettes": 63.5,
+   "bilan": -67.7
+  },
+  {
+   "season": "2026-27",
+   "depenses": 150.5,
+   "recettes": 272.0,
+   "bilan": 121.5
+  }
+ ],
+ "topScorers": [
+  {
+   "name": "Kylian Mbappé",
+   "total_goals": 256
+  },
+  {
+   "name": "Edinson Cavani",
+   "total_goals": 200
+  },
+  {
+   "name": "Zlatan Ibrahimović",
+   "total_goals": 156
+  },
+  {
+   "name": "Neymar Jr",
+   "total_goals": 118
+  },
+  {
+   "name": "Ousmane Dembélé",
+   "total_goals": 55
+  },
+  {
+   "name": "Bradley Barcola",
+   "total_goals": 34
+  },
+  {
+   "name": "Khvicha Kvaratskhelia",
+   "total_goals": 19
+  },
+  {
+   "name": "Désiré Doué",
+   "total_goals": 13
+  },
+  {
+   "name": "Gonçalo Ramos",
+   "total_goals": 12
+  },
+  {
+   "name": "Ferran Torres",
+   "total_goals": 4
+  }
+ ],
+ "palmares": [
+  {
+   "competition": "Trophée des Champions",
+   "titres": 12
+  },
+  {
+   "competition": "Ligue 1",
+   "titres": 12
+  },
+  {
+   "competition": "Coupe de France",
+   "titres": 8
+  },
+  {
+   "competition": "Coupe de la Ligue",
+   "titres": 6
+  },
+  {
+   "competition": "Supercoupe de l'UEFA",
+   "titres": 2
+  },
+  {
+   "competition": "Ligue des champions",
+   "titres": 2
+  },
+  {
+   "competition": "Coupe intercontinentale",
+   "titres": 1
+  }
+ ],
+ "seasons": [
+  {
+   "season_id": 1,
+   "label": "2011-12",
+   "ligue1_rank": 2,
+   "ucl_stage": "Non qualifié",
+   "coupe_de_france": "QF",
+   "coupe_de_la_ligue": "8es",
+   "top_scorer": "Nenê",
+   "top_scorer_goals": 27,
+   "goals_scored": 99.0,
+   "data_quality": "verifie"
+  },
+  {
+   "season_id": 2,
+   "label": "2012-13",
+   "ligue1_rank": 1,
+   "ucl_stage": "Quarts",
+   "coupe_de_france": "QF",
+   "coupe_de_la_ligue": "QF",
+   "top_scorer": "Ibrahimović",
+   "top_scorer_goals": 35,
+   "goals_scored": 101.0,
+   "data_quality": "verifie"
+  },
+  {
+   "season_id": 3,
+   "label": "2013-14",
+   "ligue1_rank": 1,
+   "ucl_stage": "Quarts",
+   "coupe_de_france": "32es",
+   "coupe_de_la_ligue": "V",
+   "top_scorer": "Ibrahimović",
+   "top_scorer_goals": 41,
+   "goals_scored": 126.0,
+   "data_quality": "verifie"
+  },
+  {
+   "season_id": 4,
+   "label": "2014-15",
+   "ligue1_rank": 1,
+   "ucl_stage": "Quarts",
+   "coupe_de_france": "V",
+   "coupe_de_la_ligue": "V",
+   "top_scorer": "Cavani",
+   "top_scorer_goals": 31,
+   "goals_scored": 122.0,
+   "data_quality": "verifie"
+  },
+  {
+   "season_id": 5,
+   "label": "2015-16",
+   "ligue1_rank": 1,
+   "ucl_stage": "Quarts",
+   "coupe_de_france": "V",
+   "coupe_de_la_ligue": "V",
+   "top_scorer": "Ibrahimović",
+   "top_scorer_goals": 50,
+   "goals_scored": 143.0,
+   "data_quality": "verifie"
+  },
+  {
+   "season_id": 6,
+   "label": "2016-17",
+   "ligue1_rank": 2,
+   "ucl_stage": "Huitièmes",
+   "coupe_de_france": "V",
+   "coupe_de_la_ligue": "V",
+   "top_scorer": "Cavani",
+   "top_scorer_goals": 49,
+   "goals_scored": 141.0,
+   "data_quality": "verifie"
+  },
+  {
+   "season_id": 7,
+   "label": "2017-18",
+   "ligue1_rank": 1,
+   "ucl_stage": "Huitièmes",
+   "coupe_de_france": "V",
+   "coupe_de_la_ligue": "V",
+   "top_scorer": "Cavani",
+   "top_scorer_goals": 40,
+   "goals_scored": 171.0,
+   "data_quality": "verifie"
+  },
+  {
+   "season_id": 8,
+   "label": "2018-19",
+   "ligue1_rank": 1,
+   "ucl_stage": "Huitièmes",
+   "coupe_de_france": "F",
+   "coupe_de_la_ligue": "QF",
+   "top_scorer": "Mbappé",
+   "top_scorer_goals": 39,
+   "goals_scored": 149.0,
+   "data_quality": "verifie"
+  },
+  {
+   "season_id": 9,
+   "label": "2019-20",
+   "ligue1_rank": 1,
+   "ucl_stage": "Finale",
+   "coupe_de_france": "V",
+   "coupe_de_la_ligue": "V",
+   "top_scorer": "Mbappé",
+   "top_scorer_goals": 30,
+   "goals_scored": 136.0,
+   "data_quality": "verifie"
+  },
+  {
+   "season_id": 10,
+   "label": "2020-21",
+   "ligue1_rank": 2,
+   "ucl_stage": "Demi-finales",
+   "coupe_de_france": "V",
+   "coupe_de_la_ligue": null,
+   "top_scorer": "Mbappé",
+   "top_scorer_goals": 42,
+   "goals_scored": 126.0,
+   "data_quality": "verifie"
+  },
+  {
+   "season_id": 11,
+   "label": "2021-22",
+   "ligue1_rank": 1,
+   "ucl_stage": "Huitièmes",
+   "coupe_de_france": "8es",
+   "coupe_de_la_ligue": null,
+   "top_scorer": "Mbappé",
+   "top_scorer_goals": 39,
+   "goals_scored": 112.0,
+   "data_quality": "verifie"
+  },
+  {
+   "season_id": 12,
+   "label": "2022-23",
+   "ligue1_rank": 1,
+   "ucl_stage": "Huitièmes",
+   "coupe_de_france": "8es",
+   "coupe_de_la_ligue": null,
+   "top_scorer": "Mbappé",
+   "top_scorer_goals": 41,
+   "goals_scored": 120.0,
+   "data_quality": "verifie"
+  },
+  {
+   "season_id": 13,
+   "label": "2023-24",
+   "ligue1_rank": 1,
+   "ucl_stage": "Demi-finales",
+   "coupe_de_france": "V",
+   "coupe_de_la_ligue": null,
+   "top_scorer": "Mbappé",
+   "top_scorer_goals": 44,
+   "goals_scored": 124.0,
+   "data_quality": "verifie"
+  },
+  {
+   "season_id": 14,
+   "label": "2024-25",
+   "ligue1_rank": 1,
+   "ucl_stage": "Vainqueur",
+   "coupe_de_france": "V",
+   "coupe_de_la_ligue": null,
+   "top_scorer": "Dembélé",
+   "top_scorer_goals": 35,
+   "goals_scored": 168.0,
+   "data_quality": "verifie"
+  },
+  {
+   "season_id": 15,
+   "label": "2025-26",
+   "ligue1_rank": 1,
+   "ucl_stage": "Vainqueur",
+   "coupe_de_france": "32es",
+   "coupe_de_la_ligue": null,
+   "top_scorer": "Dembélé",
+   "top_scorer_goals": 20,
+   "goals_scored": 128.0,
+   "data_quality": "verifie"
+  },
+  {
+   "season_id": 16,
+   "label": "2026-27",
+   "ligue1_rank": 2,
+   "ucl_stage": "En cours",
+   "coupe_de_france": "En cours",
+   "coupe_de_la_ligue": null,
+   "top_scorer": "Ferran Torres",
+   "top_scorer_goals": 4,
+   "goals_scored": null,
+   "data_quality": "partiel"
+  }
+ ],
+ "squad2526": [
+  {
+   "name": "Ousmane Dembélé",
+   "position": "ATT",
+   "nationality": "France",
+   "appearances": 40.0,
+   "goals": 20
+  },
+  {
+   "name": "Khvicha Kvaratskhelia",
+   "position": "ATT",
+   "nationality": "Géorgie",
+   "appearances": 48.0,
+   "goals": 19
+  },
+  {
+   "name": "Bradley Barcola",
+   "position": "ATT",
+   "nationality": "France",
+   "appearances": 49.0,
+   "goals": 13
+  },
+  {
+   "name": "Désiré Doué",
+   "position": "ATT",
+   "nationality": "France",
+   "appearances": 41.0,
+   "goals": 13
+  },
+  {
+   "name": "Gonçalo Ramos",
+   "position": "ATT",
+   "nationality": "Portugal",
+   "appearances": 45.0,
+   "goals": 12
+  }
+ ],
+ "arrivals2026": [
+  {
+   "name": "Maghnes Akliouche",
+   "position": "MID",
+   "nationality": "France",
+   "from_club": "AS Monaco",
+   "fee_m_eur": 50.0
+  },
+  {
+   "name": "Ferran Torres",
+   "position": "ATT",
+   "nationality": "Espagne",
+   "from_club": "FC Barcelone",
+   "fee_m_eur": 48.5
+  },
+  {
+   "name": "Mika Godts",
+   "position": "ATT",
+   "nationality": "Belgique",
+   "from_club": "Ajax",
+   "fee_m_eur": 45.0
+  },
+  {
+   "name": "Lucas Digne",
+   "position": "DEF",
+   "nationality": "France",
+   "from_club": "Aston Villa",
+   "fee_m_eur": 7.0
+  }
+ ],
+ "departures2026": [
+  {
+   "name": "Bradley Barcola",
+   "position": "ATT",
+   "to_club": "Liverpool",
+   "fee_m_eur": 125.0
+  },
+  {
+   "name": "Gonçalo Ramos",
+   "position": "ATT",
+   "to_club": "AC Milan",
+   "fee_m_eur": 74.0
+  },
+  {
+   "name": "Randal Kolo Muani",
+   "position": "ATT",
+   "to_club": "Juventus",
+   "fee_m_eur": 38.0
+  },
+  {
+   "name": "Lee Kang-in",
+   "position": "MID",
+   "to_club": "Atlético Madrid",
+   "fee_m_eur": 35.0
+  }
+ ],
+ "nationalities": [
+  {
+   "nationality": "France",
+   "count": 12
+  },
+  {
+   "nationality": "Espagne",
+   "count": 5
+  },
+  {
+   "nationality": "Brésil",
+   "count": 5
+  },
+  {
+   "nationality": "Portugal",
+   "count": 4
+  },
+  {
+   "nationality": "Argentine",
+   "count": 4
+  },
+  {
+   "nationality": "Italie",
+   "count": 2
+  },
+  {
+   "nationality": "Équateur",
+   "count": 1
+  },
+  {
+   "nationality": "Uruguay",
+   "count": 1
+  }
+ ],
+ "kpi": [
+  {
+   "players": 46,
+   "transfers": 51,
+   "seasons": 16,
+   "mbappe": 256
+  }
+ ]
 }

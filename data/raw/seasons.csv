@@ -1,16 +1,17 @@
-season_id,label,ligue1_rank,ucl_stage,top_scorer,goals_scored
-1,2011-12,2,Huitièmes,Ibrahimović,68
-2,2012-13,1,Quarts,Ibrahimović,69
-3,2013-14,1,Quarts,Ibrahimović,84
-4,2014-15,1,Quarts,Ibrahimović,72
-5,2015-16,1,Quarts,Ibrahimović,75
-6,2016-17,1,Huitièmes,Cavani,83
-7,2017-18,1,Huitièmes,Cavani,108
-8,2018-19,1,Huitièmes,Mbappé,105
-9,2019-20,1,Finale LDC,Neymar,75
-10,2020-21,2,Demi-finales,Mbappé,86
-11,2021-22,1,Huitièmes,Mbappé,90
-12,2022-23,1,Huitièmes,Mbappé,89
-13,2023-24,2,Demi-finales,Mbappé,78
-14,2024-25,1,Vainqueur LDC,Dembélé,89
-15,2025-26,1,En cours,Barcola,0
+season_id,label,ligue1_rank,ucl_stage,coupe_de_france,coupe_de_la_ligue,top_scorer,top_scorer_goals,goals_scored,data_quality
+1,2011-12,2,Non qualifié,QF,8es,Nenê,27,99.0,verifie
+2,2012-13,1,Quarts,QF,QF,Ibrahimović,35,101.0,verifie
+3,2013-14,1,Quarts,32es,V,Ibrahimović,41,126.0,verifie
+4,2014-15,1,Quarts,V,V,Cavani,31,122.0,verifie
+5,2015-16,1,Quarts,V,V,Ibrahimović,50,143.0,verifie
+6,2016-17,2,Huitièmes,V,V,Cavani,49,141.0,verifie
+7,2017-18,1,Huitièmes,V,V,Cavani,40,171.0,verifie
+8,2018-19,1,Huitièmes,F,QF,Mbappé,39,149.0,verifie
+9,2019-20,1,Finale,V,V,Mbappé,30,136.0,verifie
+10,2020-21,2,Demi-finales,V,,Mbappé,42,126.0,verifie
+11,2021-22,1,Huitièmes,8es,,Mbappé,39,112.0,verifie
+12,2022-23,1,Huitièmes,8es,,Mbappé,41,120.0,verifie
+13,2023-24,1,Demi-finales,V,,Mbappé,44,124.0,verifie
+14,2024-25,1,Vainqueur,V,,Dembélé,35,168.0,verifie
+15,2025-26,1,Vainqueur,32es,,Dembélé,20,128.0,verifie
+16,2026-27,2,En cours,En cours,,Ferran Torres,4,,partiel

@@ -76,8 +76,8 @@ for name, df in dfs.items():
 
 # Vérification de cohérence
 stats = dfs["player_stats"]
-anomalies = stats[stats["xG"] < 0]
-print(f"\n  xG négatifs détectés : {len(anomalies)}")
+anomalies = stats[stats["goals"] < 0]
+print(f"\n  Buts négatifs détectés : {len(anomalies)}")
 
 # Ajout colonne calculée : buts par 90 min
 stats["buts_per_90"] = (stats["goals"] * 90 / stats["minutes"].replace(0, np.nan)).round(2)
@@ -94,8 +94,7 @@ print("  ✅ Données nettoyées exportées")
 # ════════════════════════════════════════════════════
 top_scorers = pd.read_sql("""
     SELECT p.name, SUM(ps.goals) AS total_buts,
-           SUM(ps.assists) AS total_ast,
-           ROUND(SUM(ps.xG),1) AS total_xG
+           SUM(ps.assists) AS total_ast
     FROM player_stats ps JOIN players p ON ps.player_id=p.player_id
     GROUP BY p.name ORDER BY total_buts DESC LIMIT 10
 """, conn)
@@ -105,13 +104,12 @@ fig.patch.set_facecolor(BG_DARK)
 
 y = range(len(top_scorers))
 bars_buts = ax.barh(y, top_scorers["total_buts"], color=PSG_BLEU, height=0.5, label="Buts", zorder=3)
-bars_xg   = ax.barh(y, top_scorers["total_xG"],   color=PSG_OR,   height=0.5, alpha=0.5, label="xG", zorder=2)
 
 ax.set_yticks(y)
 ax.set_yticklabels(top_scorers["name"], fontsize=11)
 ax.invert_yaxis()
 ax.set_xlabel("Total (ère QSI)", fontsize=10)
-ax.set_title("🔵 Top 10 Buteurs PSG — Ère QSI (2011-2025)", fontsize=14, pad=15, color=TEXT_LIGHT)
+ax.set_title("🔵 Top 10 Buteurs PSG — Ère QSI (2011-2026)", fontsize=14, pad=15, color=TEXT_LIGHT)
 ax.legend(loc="lower right")
 ax.grid(axis="x", zorder=0)
 
@@ -169,8 +167,7 @@ plt.close()
 # 5. VISUALISATION — ÉVOLUTION MBAPPÉ
 # ════════════════════════════════════════════════════
 mbappe = pd.read_sql("""
-    SELECT s.label, ps.goals, ps.assists, ps.xG, ps.minutes,
-           ROUND(ps.goals*90.0/ps.minutes, 2) AS buts_per_90
+    SELECT s.label, ps.goals, ps.assists
     FROM player_stats ps
     JOIN players p ON ps.player_id=p.player_id
     JOIN seasons s  ON ps.season_id=s.season_id
@@ -182,10 +179,7 @@ fig.patch.set_facecolor(BG_DARK)
 
 x = range(len(mbappe))
 ax.fill_between(x, mbappe["goals"],   alpha=0.3, color=PSG_BLEU)
-ax.fill_between(x, mbappe["assists"], alpha=0.3, color=PSG_OR)
 ax.plot(x, mbappe["goals"],   "o-", color=PSG_BLEU, linewidth=2.5, markersize=7, label="Buts")
-ax.plot(x, mbappe["assists"], "s-", color=PSG_OR,   linewidth=2.5, markersize=7, label="Passes déc.")
-ax.plot(x, mbappe["xG"],      "^--",color=PSG_ROUGE,linewidth=1.5, markersize=5, label="xG", alpha=0.7)
 
 for i, row in mbappe.iterrows():
     idx = i - mbappe.index[0]
@@ -194,7 +188,7 @@ for i, row in mbappe.iterrows():
 
 ax.set_xticks(list(x))
 ax.set_xticklabels(mbappe["label"], rotation=30, ha="right")
-ax.set_title("📈 Kylian Mbappé — Évolution au PSG (2018-2024)", fontsize=14, color=TEXT_LIGHT)
+ax.set_title("📈 Kylian Mbappé — Évolution au PSG (2017-2024, buts toutes compétitions)", fontsize=14, color=TEXT_LIGHT)
 ax.legend()
 ax.grid(axis="y")
 
@@ -209,10 +203,9 @@ plt.close()
 # 6. VISUALISATION — EFFECTIF ACTUEL (radar par joueur)
 # ════════════════════════════════════════════════════
 squad = pd.read_sql("""
-    SELECT p.name, p.position, ps.goals, ps.assists, ps.appearances,
-           ps.xG, ps.minutes
+    SELECT p.name, p.position, ps.goals, ps.appearances
     FROM player_stats ps JOIN players p ON ps.player_id=p.player_id
-    WHERE ps.season_id=14 ORDER BY ps.goals DESC
+    WHERE ps.season_id=15 AND ps.appearances IS NOT NULL ORDER BY ps.goals DESC
 """, conn)
 
 fig, ax = plt.subplots(figsize=(14, 6))
@@ -221,7 +214,7 @@ fig.patch.set_facecolor(BG_DARK)
 pos_colors = {"ATT": PSG_ROUGE, "MID": PSG_BLEU, "DEF": PSG_OR, "GK": "#7B61FF"}
 for _, row in squad.iterrows():
     color = pos_colors.get(row["position"], TEXT_MUTED)
-    ax.scatter(row["appearances"], row["goals"], s=row["assists"]*80+50,
+    ax.scatter(row["appearances"], row["goals"], s=160,
                color=color, alpha=0.75, edgecolors="white", linewidth=0.5, zorder=3)
     ax.annotate(row["name"].split()[-1], (row["appearances"], row["goals"]+0.2),
                 ha="center", fontsize=7.5, color=TEXT_LIGHT)
@@ -230,7 +223,7 @@ legend_patches = [mpatches.Patch(color=v, label=k) for k, v in pos_colors.items(
 ax.legend(handles=legend_patches, loc="upper left", fontsize=9)
 ax.set_xlabel("Matchs joués")
 ax.set_ylabel("Buts")
-ax.set_title("🔵 Effectif PSG 2024-25 — Buts × Apparitions (taille = passes déc.)",
+ax.set_title("🔵 Joueurs PSG 2025-26 — Buts × Apparitions (données vérifiées)",
              fontsize=13, color=TEXT_LIGHT)
 ax.grid(zorder=0)
 
